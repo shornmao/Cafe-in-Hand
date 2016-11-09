@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		0964A3511DD373E60050BF90 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0964A3501DD373E60050BF90 /* AppDelegate.swift */; };
-		0964A3531DD373E60050BF90 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0964A3521DD373E60050BF90 /* ViewController.swift */; };
 		0964A3561DD373E60050BF90 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0964A3541DD373E60050BF90 /* Main.storyboard */; };
 		0964A3591DD373E60050BF90 /* Cafe_in_Hand.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0964A3571DD373E60050BF90 /* Cafe_in_Hand.xcdatamodeld */; };
 		0964A35B1DD373E60050BF90 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0964A35A1DD373E60050BF90 /* Assets.xcassets */; };
@@ -18,7 +17,6 @@
 /* Begin PBXFileReference section */
 		0964A34D1DD373E60050BF90 /* Cafe in Hand.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cafe in Hand.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0964A3501DD373E60050BF90 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		0964A3521DD373E60050BF90 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		0964A3551DD373E60050BF90 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0964A3581DD373E60050BF90 /* Cafe_in_Hand.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Cafe_in_Hand.xcdatamodel; sourceTree = "<group>"; };
 		0964A35A1DD373E60050BF90 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -57,7 +55,6 @@
 			isa = PBXGroup;
 			children = (
 				0964A3501DD373E60050BF90 /* AppDelegate.swift */,
-				0964A3521DD373E60050BF90 /* ViewController.swift */,
 				0964A3541DD373E60050BF90 /* Main.storyboard */,
 				0964A35A1DD373E60050BF90 /* Assets.xcassets */,
 				0964A35C1DD373E60050BF90 /* LaunchScreen.storyboard */,
@@ -140,7 +137,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0964A3531DD373E60050BF90 /* ViewController.swift in Sources */,
 				0964A3591DD373E60050BF90 /* Cafe_in_Hand.xcdatamodeld in Sources */,
 				0964A3511DD373E60050BF90 /* AppDelegate.swift in Sources */,
 			);
