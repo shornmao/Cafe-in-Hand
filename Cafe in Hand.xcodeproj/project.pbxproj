@@ -302,6 +302,7 @@
 				0964A3641DD373E60050BF90 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
