@@ -1,4 +1,36 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <elements/>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11232" systemVersion="16B2555" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="0.1">
+    <entity name="Category" syncable="YES">
+        <attribute name="name" attributeType="String" indexed="YES" syncable="YES"/>
+        <relationship name="menu_item" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MenuItem" inverseName="category" inverseEntity="MenuItem" syncable="YES"/>
+    </entity>
+    <entity name="MenuItem" syncable="YES">
+        <attribute name="icon" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="name" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="price" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="category" maxCount="1" deletionRule="Nullify" destinationEntity="Category" inverseName="menu_item" inverseEntity="Category" syncable="YES"/>
+        <relationship name="order_item" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="OrderItem" inverseName="menu_item" inverseEntity="OrderItem" syncable="YES"/>
+    </entity>
+    <entity name="Order" syncable="YES">
+        <attribute name="guest" attributeType="String" defaultValueString="Unnamed" syncable="YES"/>
+        <attribute name="id" attributeType="Date" usesScalarValueType="NO" indexed="YES" syncable="YES"/>
+        <relationship name="items" toMany="YES" deletionRule="Nullify" destinationEntity="OrderItem" inverseName="order" inverseEntity="OrderItem" syncable="YES"/>
+    </entity>
+    <entity name="OrderItem" syncable="YES">
+        <attribute name="amount" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="menu_item" maxCount="1" deletionRule="Nullify" destinationEntity="MenuItem" inverseName="order_item" inverseEntity="MenuItem" syncable="YES"/>
+        <relationship name="order" maxCount="1" deletionRule="Nullify" destinationEntity="Order" inverseName="items" inverseEntity="Order" syncable="YES"/>
+        <compoundIndexes>
+            <compoundIndex>
+                <index value="menu_item.name"/>
+                <index value="amount"/>
+            </compoundIndex>
+        </compoundIndexes>
+    </entity>
+    <elements>
+        <element name="Category" positionX="-63" positionY="-18" width="128" height="75"/>
+        <element name="MenuItem" positionX="-54" positionY="0" width="128" height="120"/>
+        <element name="OrderItem" positionX="-36" positionY="9" width="128" height="90"/>
+        <element name="Order" positionX="-18" positionY="45" width="128" height="90"/>
+    </elements>
 </model>
