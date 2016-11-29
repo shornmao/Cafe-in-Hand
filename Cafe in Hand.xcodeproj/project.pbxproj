@@ -7,14 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		09506FC61DEDC7CC00EB1D34 /* NewItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09506FC51DEDC7CC00EB1D34 /* NewItemViewController.swift */; };
 		0964A3511DD373E60050BF90 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0964A3501DD373E60050BF90 /* AppDelegate.swift */; };
 		0964A3561DD373E60050BF90 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0964A3541DD373E60050BF90 /* Main.storyboard */; };
 		0964A3591DD373E60050BF90 /* Cafe_in_Hand.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0964A3571DD373E60050BF90 /* Cafe_in_Hand.xcdatamodeld */; };
 		0964A35B1DD373E60050BF90 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0964A35A1DD373E60050BF90 /* Assets.xcassets */; };
 		0964A35E1DD373E60050BF90 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0964A35C1DD373E60050BF90 /* LaunchScreen.storyboard */; };
+		09AC9B3A1DEDE6460024C7A5 /* SellableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AC9B391DEDE6460024C7A5 /* SellableViewController.swift */; };
+		09AC9B3C1DEDFC960024C7A5 /* UnsellableTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AC9B3B1DEDFC960024C7A5 /* UnsellableTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		09506FC51DEDC7CC00EB1D34 /* NewItemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewItemViewController.swift; sourceTree = "<group>"; };
 		0964A34D1DD373E60050BF90 /* Cafe in Hand.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cafe in Hand.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0964A3501DD373E60050BF90 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0964A3551DD373E60050BF90 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -22,6 +26,8 @@
 		0964A35A1DD373E60050BF90 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0964A35D1DD373E60050BF90 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0964A35F1DD373E60050BF90 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		09AC9B391DEDE6460024C7A5 /* SellableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellableViewController.swift; sourceTree = "<group>"; };
+		09AC9B3B1DEDFC960024C7A5 /* UnsellableTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnsellableTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +62,9 @@
 			children = (
 				0964A3501DD373E60050BF90 /* AppDelegate.swift */,
 				0964A3541DD373E60050BF90 /* Main.storyboard */,
+				09AC9B3B1DEDFC960024C7A5 /* UnsellableTableViewController.swift */,
+				09AC9B391DEDE6460024C7A5 /* SellableViewController.swift */,
+				09506FC51DEDC7CC00EB1D34 /* NewItemViewController.swift */,
 				0964A35A1DD373E60050BF90 /* Assets.xcassets */,
 				0964A35C1DD373E60050BF90 /* LaunchScreen.storyboard */,
 				0964A35F1DD373E60050BF90 /* Info.plist */,
@@ -139,6 +148,9 @@
 			files = (
 				0964A3591DD373E60050BF90 /* Cafe_in_Hand.xcdatamodeld in Sources */,
 				0964A3511DD373E60050BF90 /* AppDelegate.swift in Sources */,
+				09AC9B3A1DEDE6460024C7A5 /* SellableViewController.swift in Sources */,
+				09AC9B3C1DEDFC960024C7A5 /* UnsellableTableViewController.swift in Sources */,
+				09506FC61DEDC7CC00EB1D34 /* NewItemViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

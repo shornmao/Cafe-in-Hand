@@ -7,6 +7,7 @@
     <entity name="MenuItem" syncable="YES">
         <attribute name="icon" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="name" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="on_stock" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="price" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="category" maxCount="1" deletionRule="Nullify" destinationEntity="Category" inverseName="menu_item" inverseEntity="Category" syncable="YES"/>
         <relationship name="order_item" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="OrderItem" inverseName="menu_item" inverseEntity="OrderItem" syncable="YES"/>
@@ -29,8 +30,8 @@
     </entity>
     <elements>
         <element name="Category" positionX="-63" positionY="-18" width="128" height="75"/>
-        <element name="MenuItem" positionX="-54" positionY="0" width="128" height="120"/>
-        <element name="OrderItem" positionX="-36" positionY="9" width="128" height="90"/>
+        <element name="MenuItem" positionX="-54" positionY="0" width="128" height="135"/>
         <element name="Order" positionX="-18" positionY="45" width="128" height="90"/>
+        <element name="OrderItem" positionX="-36" positionY="9" width="128" height="90"/>
     </elements>
 </model>
