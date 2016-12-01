@@ -6,7 +6,7 @@
     </entity>
     <entity name="MenuItem" syncable="YES">
         <attribute name="icon" optional="YES" attributeType="Binary" syncable="YES"/>
-        <attribute name="name" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
         <attribute name="on_stock" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="price" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="category" maxCount="1" deletionRule="Nullify" destinationEntity="Category" inverseName="menu_item" inverseEntity="Category" syncable="YES"/>

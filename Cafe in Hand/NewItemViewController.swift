@@ -41,14 +41,27 @@ class NewItemViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         var categoryObj : NSManagedObject?
         if categoryTextField.isEnabled {
             // insert new category
+            let name = categoryTextField.text
+            
+            // check unique for new category
+            guard !categories.contains(name!) else {
+                let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Title for Error Message Box"), message: NSLocalizedString("Failed to save because new category name is duplicated.", comment: "Error Message for duplicated category"), preferredStyle: .alert)
+                let action = UIAlertAction(title: NSLocalizedString("OK", comment: "Title of OK button"), style: .default, handler: nil)
+                alert.addAction(action)
+                present(alert, animated: true, completion: nil)
+                return
+            }
+            
             if let entityDescription = NSEntityDescription.entity(forEntityName: "Category", in: context) {
                 let newObj = NSManagedObject(entity: entityDescription, insertInto: context)
-                newObj.setValue(categoryTextField.text, forKey: "name")
+                newObj.setValue(name, forKey: "name")
                 categoryObj = newObj
                 
                 // update category picker view
                 categories.append(categoryTextField.text!)
                 categoryPickerView.reloadAllComponents()
+            } else {
+                fatalError("Failed to access <Category> in database")
             }
         } else {
             // fetch existing category
@@ -60,21 +73,31 @@ class NewItemViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
                     categoryObj = objList[0] as? NSManagedObject
                 }
             } catch {
-                fatalError("Failed to fetch category")
+                fatalError("Failed to fetch specified category")
             }
         }
-/*
-        var error : NSError?
-        do {
-            try categoryObj?.validateForUpdate()
-        } catch {
-            let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Title for Error Message Box"), message: error.localizedDescription, preferredStyle: .alert)
-            let action = UIAlertAction(title: NSLocalizedString("OK", comment: "Default Button Caption"), style: .default, handler: nil)
-            alert.addAction(action)
-            present(alert, animated: true, completion: nil)
+        
+        guard categoryObj != nil else {
+            fatalError("Failed to get or insert \(categoryTextField.text!)")
         }
-*/        
-        // insert new menu item
+
+        // check unique for new name
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "MenuItem")
+        request.predicate = NSPredicate(format: "%K = %@", "name", nameTextField.text!)
+        do {
+            let objList = try context.fetch(request)
+            guard objList.isEmpty else {
+                let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Title for Error Message Box"), message: NSLocalizedString("Failed to save because new item name is duplicated.", comment: "Error Message for duplicated item"), preferredStyle: .alert)
+                let action = UIAlertAction(title: NSLocalizedString("OK", comment: "Title of OK button"), style: .default, handler: nil)
+                alert.addAction(action)
+                present(alert, animated: true, completion: nil)
+                return
+            }
+        } catch {
+            fatalError("Failed to fetch MenuItem with specified name")
+        }
+
+        // insert new item
         if let entityDescription = NSEntityDescription.entity(forEntityName: "MenuItem", in: context) {
             let newObj = NSManagedObject(entity: entityDescription, insertInto: context)
             newObj.setValue(nameTextField.text, forKey: "name")
@@ -88,6 +111,8 @@ class NewItemViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
                 }
             }
             newObj.setValue(categoryObj, forKey: "category")
+        } else {
+            fatalError("Failed to access <MenuItem> in database")
         }
         
         reset()
@@ -113,8 +138,9 @@ class NewItemViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         }
         present(imagePicker, animated: true, completion: nil)
         if imagePicker.modalPresentationStyle == UIModalPresentationStyle.popover, let presentationController = imagePicker.popoverPresentationController {
+            presentationController.permittedArrowDirections = [.left, .right]
             presentationController.sourceView = view
-            presentationController.sourceRect = view.frame
+            presentationController.sourceRect = photoButton.frame
         }
     }
     
