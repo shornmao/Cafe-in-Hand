@@ -9,9 +9,11 @@
 import UIKit
 import CoreData
 
-class SellableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate {
+class SellableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate, OrderItemCellDelegate {
+    
     @IBOutlet weak var tableView: UITableView!
     
+    internal var amountList : [Double] = []
     internal var fetchController : NSFetchedResultsController<NSFetchRequestResult>?
 
     override func viewDidLoad() {
@@ -42,6 +44,13 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
         // Dispose of any resources that can be recreated.
     }
     
+    // MARK: - Order item cell delegate
+    func amountChanged(sender: OrderItemCell, delta: Double) {
+        let index = sender.index
+        amountList[index] = sender.amountStepper.value
+        // unimplement to update total price
+    }
+
     // MARK: - Feched results controller delegate
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
@@ -62,11 +71,13 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
         switch type {
         case .insert:
             tableView.insertRows(at: [newIndexPath!], with: .automatic)
+            amountList.insert(0, at: newIndexPath!.item)
         case .delete:
             tableView.deleteRows(at: [indexPath!], with: .automatic)
+            amountList.remove(at: indexPath!.item)
         case .update:
             let cell = tableView.dequeueReusableCell(withIdentifier: "Order Item Cell", for: indexPath!) as! OrderItemCell
-            configure(for: cell, objMenuItem: anObject)
+            configure(for: cell, objMenuItem: anObject, index: indexPath!.item)
         default:
             break
         }
@@ -97,7 +108,7 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
         let cell = tableView.dequeueReusableCell(withIdentifier: "Order Item Cell", for: indexPath) as! OrderItemCell
 
         // Configure the cell with info from fetched result controller
-        configure(for: cell, objMenuItem: fetchController?.object(at: indexPath))
+        configure(for: cell, objMenuItem: fetchController?.object(at: indexPath), index: indexPath.item)
         
         return cell
     }
@@ -113,12 +124,14 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     // tool func for configure table view cell with managed object
-    func configure(for cell: OrderItemCell?, objMenuItem: Any) {
+    func configure(for cell: OrderItemCell?, objMenuItem: Any, index: Int) {
+        cell?.delegate = self
         if let obj = objMenuItem as? NSManagedObject {
             let name = obj.value(forKey: "name") as? String
             let price = obj.value(forKey: "price") as? Double
             let icon = obj.value(forKey: "icon") as? Data
-            cell?.configure(name: name, price: price, image: icon)
+            let amountVal = index < amountList.count ? amountList[index] : 0.0
+            cell?.configure(name: name, price: price, image: icon, amount: amountVal, at: index)
         }
     }
 
