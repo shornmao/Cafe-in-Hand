@@ -11,10 +11,6 @@ import CoreData
 
 class UnsellableTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
 
-    // var menuItemNameList : [String] = []
-    // var menuItemPriceList : [Double] = []
-    // var menuItemCategoryList : [String] = []
-    
     var fetchController : NSFetchedResultsController<NSFetchRequestResult>?
     
     override func viewDidLoad() {
@@ -47,31 +43,6 @@ class UnsellableTableViewController: UITableViewController, NSFetchedResultsCont
         // Dispose of any resources that can be recreated.
     }
     
-    // try to use fetched result controller to update table view
-/*
-    override func viewWillAppear(_ animated: Bool) {
-        // reload data for each viewing
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context = appDelegate.persistentContainer.viewContext
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "MenuItem")
-        do {
-            let objList = try context.fetch(request)
-            menuItemNameList.removeAll()
-            menuItemPriceList.removeAll()
-            menuItemCategoryList.removeAll()
-            for obj in objList {
-                if let menuItemObj = obj as? NSManagedObject {
-                    menuItemNameList.append(menuItemObj.value(forKey: "name") as! String)
-                    menuItemPriceList.append(menuItemObj.value(forKey: "price") as! Double)
-                    menuItemCategoryList.append(menuItemObj.value(forKeyPath: "category.name") as! String)
-                }
-            }
-        } catch {
-            fatalError("Failed to fetch MenuItem")
-        }
-        tableView.reloadData()
-    }
-*/
     // MARK: - Fetched result delegate
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
@@ -148,9 +119,12 @@ class UnsellableTableViewController: UITableViewController, NSFetchedResultsCont
         if let obj = objMenuItem as? NSManagedObject {
             let name = obj.value(forKey: "name") as? String
             let price = obj.value(forKey: "price") as? Double
-            let currency = NSLocale.current.currencyCode!
+            let currency = NSLocale.current.currencyCode            
             cell.textLabel?.text = name!
-            cell.detailTextLabel?.text = "\(price!) \(currency)"
+            cell.detailTextLabel?.text = "\(price!) \(currency!)"
+            if let icon = obj.value(forKey: "icon") as? Data {
+                cell.imageView?.image = UIImage(data: icon)
+            }
         }
     }
 
