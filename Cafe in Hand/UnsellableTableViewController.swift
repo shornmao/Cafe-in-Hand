@@ -124,6 +124,8 @@ class UnsellableTableViewController: UITableViewController, NSFetchedResultsCont
             cell.detailTextLabel?.text = "\(price!) \(currency!)"
             if let icon = obj.value(forKey: "icon") as? Data {
                 cell.imageView?.image = UIImage(data: icon)
+            } else {
+                cell.imageView?.image = nil
             }
         }
     }

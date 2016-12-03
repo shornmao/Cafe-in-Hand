@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		092074B81DF310FF00B5DDC8 /* OrderItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 092074B71DF310FF00B5DDC8 /* OrderItemCell.swift */; };
 		09506FC61DEDC7CC00EB1D34 /* NewItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09506FC51DEDC7CC00EB1D34 /* NewItemViewController.swift */; };
 		0964A3511DD373E60050BF90 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0964A3501DD373E60050BF90 /* AppDelegate.swift */; };
 		0964A3561DD373E60050BF90 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0964A3541DD373E60050BF90 /* Main.storyboard */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		092074B71DF310FF00B5DDC8 /* OrderItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderItemCell.swift; sourceTree = "<group>"; };
 		09506FC51DEDC7CC00EB1D34 /* NewItemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewItemViewController.swift; sourceTree = "<group>"; };
 		0964A34D1DD373E60050BF90 /* Cafe in Hand.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cafe in Hand.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0964A3501DD373E60050BF90 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -62,6 +64,7 @@
 			children = (
 				0964A3501DD373E60050BF90 /* AppDelegate.swift */,
 				0964A3541DD373E60050BF90 /* Main.storyboard */,
+				092074B71DF310FF00B5DDC8 /* OrderItemCell.swift */,
 				09AC9B3B1DEDFC960024C7A5 /* UnsellableTableViewController.swift */,
 				09AC9B391DEDE6460024C7A5 /* SellableViewController.swift */,
 				09506FC51DEDC7CC00EB1D34 /* NewItemViewController.swift */,
@@ -149,6 +152,7 @@
 				0964A3591DD373E60050BF90 /* Cafe_in_Hand.xcdatamodeld in Sources */,
 				0964A3511DD373E60050BF90 /* AppDelegate.swift in Sources */,
 				09AC9B3A1DEDE6460024C7A5 /* SellableViewController.swift in Sources */,
+				092074B81DF310FF00B5DDC8 /* OrderItemCell.swift in Sources */,
 				09AC9B3C1DEDFC960024C7A5 /* UnsellableTableViewController.swift in Sources */,
 				09506FC61DEDC7CC00EB1D34 /* NewItemViewController.swift in Sources */,
 			);

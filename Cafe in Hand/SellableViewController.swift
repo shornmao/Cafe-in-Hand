@@ -7,31 +7,119 @@
 //
 
 import UIKit
+import CoreData
 
-class SellableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class SellableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate {
+    @IBOutlet weak var tableView: UITableView!
+    
+    internal var fetchController : NSFetchedResultsController<NSFetchRequestResult>?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        tableView.delegate = self
+        tableView.dataSource = self
+
+        // use fetched results controller
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "MenuItem")
+        request.predicate = NSPredicate(format: "%K == YES", "on_stock")
+        request.sortDescriptors = [NSSortDescriptor(key: "category.name", ascending: true)]
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+        if let context = appDelegate?.persistentContainer.viewContext {
+            fetchController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: "category.name", cacheName: nil)
+            fetchController?.delegate = self
+            do {
+                try fetchController?.performFetch()
+            } catch {
+                fatalError("Failed to fetch on first time")
+            }
+        }
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    // MARK: - Feched results controller delegate
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.beginUpdates()
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
+        switch type {
+        case .insert:
+            tableView.insertSections([sectionIndex], with: .automatic)
+        case .delete:
+            tableView.deleteSections([sectionIndex], with: .automatic)
+        default:
+            break
+        }
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch type {
+        case .insert:
+            tableView.insertRows(at: [newIndexPath!], with: .automatic)
+        case .delete:
+            tableView.deleteRows(at: [indexPath!], with: .automatic)
+        case .update:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "Order Item Cell", for: indexPath!) as! OrderItemCell
+            configure(for: cell, objMenuItem: anObject)
+        default:
+            break
+        }
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.endUpdates()
+    }
 
+    // MARK: - Table view data source
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        // calculate sections count from fetched result controller
+        return (fetchController?.sections?.count)!
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        // calculate rows count of one section from fetched result controller
+        guard fetchController?.sections?.isEmpty == false else {
+            return 0
+        }
+        if let sectionInfo = fetchController?.sections?[section] {
+            return sectionInfo.numberOfObjects
+        }
         return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Order Item Cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Order Item Cell", for: indexPath) as! OrderItemCell
+
+        // Configure the cell with info from fetched result controller
+        configure(for: cell, objMenuItem: fetchController?.object(at: indexPath))
+        
         return cell
+    }
+
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        guard fetchController?.sections?.isEmpty == false else {
+            return nil
+        }
+        if let sectionInfo = fetchController?.sections?[section] {
+            return sectionInfo.name
+        }
+        return nil
+    }
+    
+    // tool func for configure table view cell with managed object
+    func configure(for cell: OrderItemCell?, objMenuItem: Any) {
+        if let obj = objMenuItem as? NSManagedObject {
+            let name = obj.value(forKey: "name") as? String
+            let price = obj.value(forKey: "price") as? Double
+            let icon = obj.value(forKey: "icon") as? Data
+            cell?.configure(name: name, price: price, image: icon)
+        }
     }
 
     /*

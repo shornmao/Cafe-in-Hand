@@ -43,7 +43,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="detailButton" indentationWidth="10" reuseIdentifier="Order Item Cell" rowHeight="137" id="eeQ-Gv-ukP">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="detailButton" indentationWidth="10" reuseIdentifier="Order Item Cell" rowHeight="137" id="eeQ-Gv-ukP" customClass="OrderItemCell" customModule="Cafe_in_Hand" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="55.5" width="375" height="137"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="eeQ-Gv-ukP" id="HCP-mi-l1g">
@@ -74,6 +74,9 @@
                                                 <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="Go4-qm-gcq">
                                                     <frame key="frameInset" minX="150" minY="38" width="94" height="29"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <connections>
+                                                        <action selector="amountStepperChanged:" destination="eeQ-Gv-ukP" eventType="valueChanged" id="wJs-6P-aag"/>
+                                                    </connections>
                                                 </stepper>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Unit Price:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b0Z-k3-ih0">
                                                     <frame key="frameInset" minX="8" minY="75" width="92" height="21"/>
@@ -124,7 +127,12 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="KtN-rr-9WY" kind="show" trigger="accessoryAction" id="XFU-TX-Uzl"/>
+                                            <outlet property="amountLabel" destination="J40-KR-LME" id="YPl-k4-M8s"/>
+                                            <outlet property="amountStepper" destination="Go4-qm-gcq" id="fBd-Wi-Drp"/>
+                                            <outlet property="iconImageView" destination="2G3-k9-vvE" id="NjJ-RX-4PX"/>
+                                            <outlet property="nameLabel" destination="h0A-zz-wO9" id="m0m-um-ln6"/>
+                                            <outlet property="priceLabel" destination="lQD-bL-6Fv" id="AEM-N1-cR4"/>
+                                            <outlet property="totalLabel" destination="DI4-lK-xih" id="GhC-RM-3s6"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -137,6 +145,9 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Sellable" id="uVb-yI-yQF"/>
+                    <connections>
+                        <outlet property="tableView" destination="Cgy-Kb-z6f" id="FYe-VA-qeU"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6wL-6K-No0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -491,7 +502,4 @@
             <point key="canvasLocation" x="-502" y="1112"/>
         </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="XFU-TX-Uzl"/>
-    </inferredMetricsTieBreakers>
 </document>
