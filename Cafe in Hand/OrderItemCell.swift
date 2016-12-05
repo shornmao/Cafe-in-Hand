@@ -9,7 +9,7 @@
 import UIKit
 
 protocol OrderItemCellDelegate {
-    func amountChanged(sender: OrderItemCell, delta: Double)
+    func amountChanged(sender: OrderItemCell, deltaAmount: Int)
 }
 
 class OrderItemCell: UITableViewCell {
@@ -22,16 +22,16 @@ class OrderItemCell: UITableViewCell {
     @IBOutlet weak var iconImageView: UIImageView!
 
     @IBAction func amountStepperChanged(_ sender: AnyObject) {
-        let oldVal = Double(amountLabel.text!)!
-        let deltaVal = amountStepper.value - oldVal
-        amountLabel.text = "\(amountStepper.value)"
+        let oldVal = Int(amountLabel.text!)!
+        let newVal = Int(amountStepper.value)
+        let deltaVal = newVal - oldVal
+        amountLabel.text = "\(newVal)"
         let subTotal = amountStepper.value * Double(priceLabel.text!)!
         totalLabel.text = "\(subTotal)"
-        delegate?.amountChanged(sender: self, delta: deltaVal)
+        delegate?.amountChanged(sender: self, deltaAmount: deltaVal)
     }
     
     var delegate: OrderItemCellDelegate?
-    var index = 0
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -44,16 +44,17 @@ class OrderItemCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func configure(name: String?, price: Double?, image: Data?, amount: Double, at index: Int) {
+    func configure(name: String, price: Double, image: Data?, amount: Int) {
         nameLabel.text = name
-        priceLabel.text = "\(price!)"
+        priceLabel.text = "\(price)"
         if (image != nil) {
             iconImageView.image = UIImage(data: image!)
         } else {
             iconImageView.image = nil
         }
-        amountStepper.value = amount
-        self.index = index
+        amountStepper.value = Double(amount)
+        amountLabel.text = "\(amount)"
+        totalLabel.text = "\(price * Double(amount))"
     }
 
 }

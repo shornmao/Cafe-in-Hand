@@ -12,12 +12,15 @@ import CoreData
 class SellableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate, OrderItemCellDelegate {
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var totalLabel: UILabel!
     
-    internal var amountList : [Double] = []
+    internal var amountDict : [String:Int] = [:]
     internal var fetchController : NSFetchedResultsController<NSFetchRequestResult>?
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+//        totalLabel.text = "0.00"
 
         // Do any additional setup after loading the view.
         tableView.delegate = self
@@ -45,10 +48,20 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     // MARK: - Order item cell delegate
-    func amountChanged(sender: OrderItemCell, delta: Double) {
-        let index = sender.index
-        amountList[index] = sender.amountStepper.value
-        // unimplement to update total price
+    func amountChanged(sender: OrderItemCell, deltaAmount: Int) {
+        let value = Int(sender.amountStepper.value)
+        if let name = sender.nameLabel.text {
+            if value != 0 {
+                amountDict[name] = value
+            } else {
+                amountDict.removeValue(forKey: name)
+            }
+        } else {
+            fatalError("Invalid item name")
+        }
+        if let price = Double(sender.priceLabel.text!), deltaAmount != 0, let totalString = totalLabel.text, let total = Double(totalString) {
+            totalLabel.text = "\(total + Double(deltaAmount) * price)"
+        }
     }
 
     // MARK: - Feched results controller delegate
@@ -71,13 +84,11 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
         switch type {
         case .insert:
             tableView.insertRows(at: [newIndexPath!], with: .automatic)
-            amountList.insert(0, at: newIndexPath!.item)
         case .delete:
             tableView.deleteRows(at: [indexPath!], with: .automatic)
-            amountList.remove(at: indexPath!.item)
         case .update:
             let cell = tableView.dequeueReusableCell(withIdentifier: "Order Item Cell", for: indexPath!) as! OrderItemCell
-            configure(for: cell, objMenuItem: anObject, index: indexPath!.item)
+            configure(for: cell, objMenuItem: anObject)
         default:
             break
         }
@@ -108,7 +119,7 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
         let cell = tableView.dequeueReusableCell(withIdentifier: "Order Item Cell", for: indexPath) as! OrderItemCell
 
         // Configure the cell with info from fetched result controller
-        configure(for: cell, objMenuItem: fetchController?.object(at: indexPath), index: indexPath.item)
+        configure(for: cell, objMenuItem: fetchController?.object(at: indexPath))
         
         return cell
     }
@@ -124,14 +135,17 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     // tool func for configure table view cell with managed object
-    func configure(for cell: OrderItemCell?, objMenuItem: Any, index: Int) {
-        cell?.delegate = self
-        if let obj = objMenuItem as? NSManagedObject {
-            let name = obj.value(forKey: "name") as? String
-            let price = obj.value(forKey: "price") as? Double
+    func configure(for cell: OrderItemCell, objMenuItem: Any) {
+        cell.delegate = self
+        if let obj = objMenuItem as? NSManagedObject, let name = obj.value(forKey: "name") as? String, let price = obj.value(forKey: "price") as? Double {
             let icon = obj.value(forKey: "icon") as? Data
-            let amountVal = index < amountList.count ? amountList[index] : 0.0
-            cell?.configure(name: name, price: price, image: icon, amount: amountVal, at: index)
+            var amountVal = 0
+            if let val = amountDict[name] {
+                amountVal = val
+            }
+            cell.configure(name: name, price: price, image: icon, amount: amountVal)
+        } else {
+            fatalError("Failed to display item info")
         }
     }
 
