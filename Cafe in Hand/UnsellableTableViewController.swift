@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 class UnsellableTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
-
+    
     var fetchController : NSFetchedResultsController<NSFetchRequestResult>?
     
     override func viewDidLoad() {
@@ -19,8 +19,8 @@ class UnsellableTableViewController: UITableViewController, NSFetchedResultsCont
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(UnsellableTableViewController.saveTapped))
+        navigationItem.rightBarButtonItem?.isEnabled = false
         
         // use fetched results controller
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "MenuItem")
@@ -38,6 +38,13 @@ class UnsellableTableViewController: UITableViewController, NSFetchedResultsCont
         }
     }
 
+    func saveTapped() {
+        if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
+            appDelegate.saveContext()
+        }
+        navigationItem.rightBarButtonItem?.isEnabled = false
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -65,6 +72,7 @@ class UnsellableTableViewController: UITableViewController, NSFetchedResultsCont
             tableView.insertRows(at: [newIndexPath!], with: .automatic)
         case .delete:
             tableView.deleteRows(at: [indexPath!], with: .automatic)
+            navigationItem.rightBarButtonItem?.isEnabled = true
         case .update:
             let cell = tableView.dequeueReusableCell(withIdentifier: "Menu Item Cell", for: indexPath!)
             configure(for: cell, objMenuItem: anObject)
@@ -130,25 +138,27 @@ class UnsellableTableViewController: UITableViewController, NSFetchedResultsCont
         }
     }
 
-    /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
         return true
     }
-    */
 
-    /*
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            // get object from fetched results controller
+            if let obj = fetchController?.object(at: indexPath) as? NSManagedObject {
+                // delete object from context
+                fetchController?.managedObjectContext.delete(obj)
+                // fetched results controller delegate will received notification to perform table view update
+                // storage could not be updated till context is saved
+            }
+//            tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
     }
-    */
 
     /*
     // Override to support rearranging the table view.
