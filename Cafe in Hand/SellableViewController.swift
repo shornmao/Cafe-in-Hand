@@ -25,6 +25,9 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
         // Do any additional setup after loading the view.
         tableView.delegate = self
         tableView.dataSource = self
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(SellableViewController.saveTapped))
+        navigationItem.rightBarButtonItem?.isEnabled = false
 
         // use fetched results controller
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "MenuItem")
@@ -40,6 +43,20 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
                 fatalError("Failed to fetch on first time")
             }
         }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if let context = fetchController?.managedObjectContext {
+            navigationItem.rightBarButtonItem?.isEnabled = context.hasChanges
+        }
+    }
+    
+    func saveTapped() {
+        if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
+            appDelegate.saveContext()
+        }
+        navigationItem.rightBarButtonItem?.isEnabled = false
     }
 
     override func didReceiveMemoryWarning() {
@@ -86,9 +103,11 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
             tableView.insertRows(at: [newIndexPath!], with: .automatic)
         case .delete:
             tableView.deleteRows(at: [indexPath!], with: .automatic)
+            navigationItem.rightBarButtonItem?.isEnabled = true
         case .update:
             let cell = tableView.dequeueReusableCell(withIdentifier: "Order Item Cell", for: indexPath!) as! OrderItemCell
             configure(for: cell, objMenuItem: anObject)
+            navigationItem.rightBarButtonItem?.isEnabled = true
         default:
             break
         }
@@ -146,6 +165,29 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
             cell.configure(name: name, price: price, image: icon, amount: amountVal)
         } else {
             fatalError("Failed to display item info")
+        }
+    }
+
+    // Override to support conditional editing of the table view.
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        // Return false if you do not want the specified item to be editable.
+        return true
+    }
+    
+    // Override to support editing the table view.
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            // delete actually to perform move item from sellable to unsellable
+            // get object from fetched results controller
+            if let obj = fetchController?.object(at: indexPath) as? NSManagedObject {
+                // delete object from context
+                obj.setValue(false, forKey: "on_stock")
+                // fetched results controller delegate will received notification to perform table view update
+                // storage could not be updated till context is saved
+            }
+            //            tableView.deleteRows(at: [indexPath], with: .fade)
+        } else if editingStyle == .insert {
+            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }
     }
 

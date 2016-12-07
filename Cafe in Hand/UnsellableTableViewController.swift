@@ -45,6 +45,13 @@ class UnsellableTableViewController: UITableViewController, NSFetchedResultsCont
         navigationItem.rightBarButtonItem?.isEnabled = false
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if let context = fetchController?.managedObjectContext {
+            navigationItem.rightBarButtonItem?.isEnabled = context.hasChanges
+        }
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -159,7 +166,7 @@ class UnsellableTableViewController: UITableViewController, NSFetchedResultsCont
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
     }
-
+    
     /*
     // Override to support rearranging the table view.
     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
@@ -175,14 +182,15 @@ class UnsellableTableViewController: UITableViewController, NSFetchedResultsCont
     }
     */
 
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if let itemInfoViewController = segue.destination as? ItemInfoViewController, let cell = sender as? UITableViewCell, let indexPath = tableView.indexPath(for: cell), let obj = fetchController?.object(at: indexPath) {
+            itemInfoViewController.objectMenuItem = obj as? NSManagedObject
+        }
     }
-    */
 
 }
