@@ -82,6 +82,15 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
     }
 
     // MARK: - Feched results controller delegate
+    // localized change monitoring cannot handle the following 2 cases:
+    //  1) for object updated, configure cell is not effective, only scrolling table view can refresh cell, root cause is unclear
+    //  2) for object's on_stock updated, update change type cannot be monitored, because only affect predicate.
+    // temporary solution is reload data for tableview once change is monitored, it is low effecient, but it works
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        navigationItem.rightBarButtonItem?.isEnabled = true
+        tableView.reloadData()
+    }
+/*
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
     }
@@ -116,7 +125,7 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.endUpdates()
     }
-
+*/
     // MARK: - Table view data source
     func numberOfSections(in tableView: UITableView) -> Int {
         // calculate sections count from fetched result controller
@@ -191,14 +200,16 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
         }
     }
 
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if let itemInfoViewController = segue.destination as? ItemInfoViewController, let cell = sender as? UITableViewCell, let indexPath = tableView.indexPath(for: cell), let obj = fetchController?.object(at: indexPath) {
+            itemInfoViewController.objectMenuItem = obj as? NSManagedObject
+            itemInfoViewController.categoryName = fetchController?.sections?[indexPath.section].name
+        }
     }
-    */
 
 }
