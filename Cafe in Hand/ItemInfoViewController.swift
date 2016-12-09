@@ -11,6 +11,9 @@ import CoreData
 import MobileCoreServices
 
 class ItemInfoViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+
+    weak var objectMenuItem : NSManagedObject?
+    
     @IBOutlet weak var categoryLabel: UILabel!
     @IBOutlet weak var priceField: UITextField!
     @IBOutlet weak var imageView: UIImageView!
@@ -59,15 +62,13 @@ class ItemInfoViewController: UIViewController, UIImagePickerControllerDelegate,
         }
     }
 
-    weak var objectMenuItem : NSManagedObject?
-    var categoryName : String?
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         navigationItem.title = objectMenuItem?.value(forKey: "name") as? String
-        categoryLabel.text = categoryName
+        // categoryLabel.text = categoryName
+        categoryLabel.text = objectMenuItem?.value(forKeyPath: "category.name") as? String
         priceField.text = "\(objectMenuItem?.value(forKey: "price") as! Double)"
         if let iconData = objectMenuItem?.value(forKey: "icon") as? Data {
             imageView.image = UIImage(data: iconData)
