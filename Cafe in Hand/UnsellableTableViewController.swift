@@ -58,16 +58,8 @@ class UnsellableTableViewController: UITableViewController, NSFetchedResultsCont
     }
     
     // MARK: - Fetched result delegate
-    // localized change monitoring cannot handle the following 2 cases:
-    //  1) for object updated, configure cell is not effective, only scrolling table view can refresh cell, root cause is unclear
-    //  2) for object's on_stock updated, update change type cannot be monitored, because only affect predicate.
-    // temporary solution is reload data for tableview once change is monitored, it is low effecient, but it works
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        navigationItem.rightBarButtonItem?.isEnabled = true
-        tableView.reloadData()
-    }
-/*
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        navigationItem.rightBarButtonItem?.isEnabled = true
         tableView.beginUpdates()
     }
     
@@ -90,8 +82,10 @@ class UnsellableTableViewController: UITableViewController, NSFetchedResultsCont
             tableView.deleteRows(at: [indexPath!], with: .automatic)
             navigationItem.rightBarButtonItem?.isEnabled = true
         case .update:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "Menu Item Cell", for: indexPath!)
-            configure(for: cell, objMenuItem: anObject)
+            // Using dequeueResuableCell will cause that table view counldn't refresh data
+            if let cell = tableView.cellForRow(at: indexPath!) {
+                configure(for: cell, objMenuItem: anObject)
+            }
             navigationItem.rightBarButtonItem?.isEnabled = true
         default:
             break
@@ -101,7 +95,7 @@ class UnsellableTableViewController: UITableViewController, NSFetchedResultsCont
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.endUpdates()
     }
-*/
+
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {

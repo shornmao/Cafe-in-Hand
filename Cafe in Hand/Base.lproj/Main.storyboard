@@ -133,7 +133,7 @@
                                             <outlet property="nameLabel" destination="IpR-Eq-cjs" id="YXc-bx-asL"/>
                                             <outlet property="priceLabel" destination="Btc-co-LtP" id="SjV-Xr-Eqd"/>
                                             <outlet property="totalLabel" destination="ZAd-MA-eFU" id="cMg-45-ZMJ"/>
-                                            <segue destination="KtN-rr-9WY" kind="show" trigger="accessoryAction" id="CrD-Zs-TjJ"/>
+                                            <segue destination="KtN-rr-9WY" kind="show" identifier="" trigger="accessoryAction" id="CrD-Zs-TjJ"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -253,7 +253,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="KtN-rr-9WY" kind="show" trigger="accessoryAction" id="nFm-pf-hy0"/>
+                                    <segue destination="KtN-rr-9WY" kind="show" identifier="" trigger="accessoryAction" id="nFm-pf-hy0"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -345,24 +345,6 @@
                                     <action selector="priceChanged:" destination="KtN-rr-9WY" eventType="editingDidEnd" id="A03-uj-cyM"/>
                                 </connections>
                             </textField>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wui-sF-V9B">
-                                <frame key="frameInset" minX="123" minY="143" width="128" height="128"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4ZE-Zf-lOU">
-                                <frame key="frameInset" minX="202" minY="317" width="51" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <connections>
-                                    <action selector="onstockChanged:" destination="KtN-rr-9WY" eventType="valueChanged" id="J8f-1d-MT5"/>
-                                </connections>
-                            </switch>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="On Stock" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UEK-2t-naS">
-                                <frame key="frameInset" minX="123" minY="322" width="71" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gt9-ve-ZeL">
                                 <frame key="frameInset" minX="189" minY="279" width="59" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -386,6 +368,18 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="76f-CL-fNH">
+                                <frame key="frameInset" minX="123" minY="317" width="128" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Stop to Sell"/>
+                                <connections>
+                                    <action selector="onstockChanged:" destination="KtN-rr-9WY" eventType="touchUpInside" id="on2-2c-GWA"/>
+                                </connections>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wui-sF-V9B">
+                                <frame key="frameInset" minX="123" minY="143" width="128" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <connections>
@@ -396,9 +390,9 @@
                         <outlet property="cameraButton" destination="Gt9-ve-ZeL" id="Puf-WT-AWN"/>
                         <outlet property="categoryLabel" destination="Ehu-RL-ekZ" id="KPn-SD-WD9"/>
                         <outlet property="imageView" destination="wui-sF-V9B" id="msP-wu-WuU"/>
-                        <outlet property="onStockSwitch" destination="4ZE-Zf-lOU" id="twW-AK-JPq"/>
                         <outlet property="photoButton" destination="lCt-0o-zlH" id="Umd-vS-t09"/>
                         <outlet property="priceField" destination="EKN-dz-Fms" id="g33-Op-juh"/>
+                        <outlet property="sellButton" destination="76f-CL-fNH" id="jgC-NV-Ijb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="s93-SN-DF8" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -672,6 +666,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="CrD-Zs-TjJ"/>
+        <segue reference="nFm-pf-hy0"/>
     </inferredMetricsTieBreakers>
 </document>

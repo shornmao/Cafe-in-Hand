@@ -14,9 +14,9 @@ class ItemInfoViewController: UIViewController, UIImagePickerControllerDelegate,
     @IBOutlet weak var categoryLabel: UILabel!
     @IBOutlet weak var priceField: UITextField!
     @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var onStockSwitch: UISwitch!
     @IBOutlet weak var cameraButton: UIButton!
     @IBOutlet weak var photoButton: UIButton!
+    @IBOutlet weak var sellButton: UIButton!
     
     @IBAction func priceChanged(_ sender: AnyObject) {
         NSLog(priceField.text!)
@@ -24,8 +24,10 @@ class ItemInfoViewController: UIViewController, UIImagePickerControllerDelegate,
     }
     
     @IBAction func onstockChanged(_ sender: AnyObject) {
-        NSLog("\(onStockSwitch.isOn)")
-        objectMenuItem?.setValue(onStockSwitch.isOn, forKey: "on_stock")
+        if let onstock = objectMenuItem?.value(forKey: "on_stock") as? Bool {
+            objectMenuItem?.setValue(!onstock, forKey: "on_stock")
+        }
+        let _ = navigationController?.popViewController(animated: true)
     }
 
     @IBAction func backgroundTapped(_ sender: AnyObject) {
@@ -70,7 +72,9 @@ class ItemInfoViewController: UIViewController, UIImagePickerControllerDelegate,
         if let iconData = objectMenuItem?.value(forKey: "icon") as? Data {
             imageView.image = UIImage(data: iconData)
         }
-        onStockSwitch.isOn = objectMenuItem?.value(forKey: "on_stock") as! Bool
+        if let onstock = objectMenuItem?.value(forKey: "on_stock") as? Bool {
+            sellButton.setTitle(onstock ? NSLocalizedString("Stop to Sell", comment: "Sell button title for sellable item") : NSLocalizedString("Sell Again", comment: "Sell button title for unsellable item"), for: .normal)
+        }
         cameraButton.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera)
         photoButton.isEnabled = UIImagePickerController.isSourceTypeAvailable(.photoLibrary)
     }
