@@ -194,6 +194,7 @@ class UnsellableTableViewController: UITableViewController, NSFetchedResultsCont
         // Pass the selected object to the new view controller.
         if let itemInfoViewController = segue.destination as? ItemInfoViewController, let cell = sender as? UITableViewCell, let indexPath = tableView.indexPath(for: cell), let obj = fetchController?.object(at: indexPath) {
             itemInfoViewController.objectMenuItem = obj as? NSManagedObject
+            itemInfoViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Sell", comment: "Sell Button Title"), style: .done, target: itemInfoViewController, action: #selector(ItemInfoViewController.sell))
         }
     }
 

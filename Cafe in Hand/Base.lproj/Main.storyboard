@@ -207,7 +207,7 @@
                                 <state key="normal" title="Discard"/>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Order" id="uVb-yI-yQF"/>
                     <navigationItem key="navigationItem" title="Sellable" id="8tR-7v-lxi"/>
@@ -368,14 +368,6 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="76f-CL-fNH">
-                                <frame key="frameInset" minX="123" minY="317" width="128" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Stop to Sell"/>
-                                <connections>
-                                    <action selector="onstockChanged:" destination="KtN-rr-9WY" eventType="touchUpInside" id="on2-2c-GWA"/>
-                                </connections>
-                            </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wui-sF-V9B">
                                 <frame key="frameInset" minX="123" minY="143" width="128" height="128"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -393,7 +385,6 @@
                         <outlet property="imageView" destination="wui-sF-V9B" id="msP-wu-WuU"/>
                         <outlet property="photoButton" destination="lCt-0o-zlH" id="Umd-vS-t09"/>
                         <outlet property="priceField" destination="EKN-dz-Fms" id="g33-Op-juh"/>
-                        <outlet property="sellButton" destination="76f-CL-fNH" id="jgC-NV-Ijb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="s93-SN-DF8" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -521,7 +512,7 @@
                         <viewControllerLayoutGuide type="top" id="vzg-la-lHG"/>
                         <viewControllerLayoutGuide type="bottom" id="wQe-Xj-Zxw"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="8P8-7R-7Qc" customClass="UIScrollView">
+                    <view key="view" contentMode="scaleToFill" id="8P8-7R-7Qc" customClass="UIControl">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -532,12 +523,15 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="No Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hgv-J7-HOs">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="No Name" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="hgv-J7-HOs">
                                 <frame key="frameInset" minX="109" minY="20" width="250" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words" keyboardType="alphabet" returnKeyType="done"/>
+                                <connections>
+                                    <action selector="textFieldDoneEditing:" destination="Sb7-Mn-Hm3" eventType="editingDidEndOnExit" id="wRd-l0-PVC"/>
+                                </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Category:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iRj-11-J7r">
                                 <frame key="frameInset" minX="16" minY="71" width="85" height="21"/>
@@ -554,12 +548,16 @@
                                     <outlet property="delegate" destination="Sb7-Mn-Hm3" id="RQy-bY-TOS"/>
                                 </connections>
                             </pickerView>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="User Defined" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GTU-dj-JQx">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="User Defined" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="GTU-dj-JQx">
                                 <frame key="frameInset" minX="109" minY="67" width="250" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words" keyboardType="alphabet" returnKeyType="done"/>
+                                <connections>
+                                    <action selector="categoryEditingEnd:" destination="Sb7-Mn-Hm3" eventType="editingDidEnd" id="VML-z6-fVf"/>
+                                    <action selector="textFieldDoneEditing:" destination="Sb7-Mn-Hm3" eventType="editingDidEndOnExit" id="iLN-41-LZN"/>
+                                </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Price:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FYG-bn-ZFx">
                                 <frame key="frameInset" minX="43" minY="211" width="58" height="21"/>
@@ -580,11 +578,12 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" keyboardType="decimalPad" keyboardAppearance="alert"/>
+                                <textInputTraits key="textInputTraits" keyboardType="decimalPad" returnKeyType="done"/>
                             </textField>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ee1-yN-QUG">
                                 <frame key="frameInset" minX="123" minY="244" width="128" height="128"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                             </imageView>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="T0Y-E8-H5u">
                                 <frame key="frameInset" minX="202" minY="418" width="51" height="31"/>
@@ -600,7 +599,7 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LD3-ED-UaS">
                                 <frame key="frameInset" minX="205" minY="457" width="46" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Save"/>
+                                <state key="normal" title="Enter"/>
                                 <connections>
                                     <action selector="saveTapped:" destination="Sb7-Mn-Hm3" eventType="touchUpInside" id="BW5-He-YyR"/>
                                 </connections>
@@ -631,6 +630,9 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <connections>
+                            <action selector="backgroundTapped:" destination="Sb7-Mn-Hm3" eventType="touchDown" id="elK-Q1-VaD"/>
+                        </connections>
                     </view>
                     <tabBarItem key="tabBarItem" title="New Item" id="lCO-iS-Qh4"/>
                     <connections>
@@ -667,6 +669,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="nFm-pf-hy0"/>
+        <segue reference="CrD-Zs-TjJ"/>
     </inferredMetricsTieBreakers>
 </document>

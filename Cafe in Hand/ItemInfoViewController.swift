@@ -19,20 +19,11 @@ class ItemInfoViewController: UIViewController, UIImagePickerControllerDelegate,
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var cameraButton: UIButton!
     @IBOutlet weak var photoButton: UIButton!
-    @IBOutlet weak var sellButton: UIButton!
     
     @IBAction func priceChanged(_ sender: AnyObject) {
-        NSLog(priceField.text!)
         objectMenuItem?.setValue(Double(priceField.text!), forKey: "price")
     }
     
-    @IBAction func onstockChanged(_ sender: AnyObject) {
-        if let onstock = objectMenuItem?.value(forKey: "on_stock") as? Bool {
-            objectMenuItem?.setValue(!onstock, forKey: "on_stock")
-        }
-        let _ = navigationController?.popViewController(animated: true)
-    }
-
     @IBAction func backgroundTapped(_ sender: AnyObject) {
         priceField.resignFirstResponder()
     }
@@ -73,9 +64,6 @@ class ItemInfoViewController: UIViewController, UIImagePickerControllerDelegate,
         if let iconData = objectMenuItem?.value(forKey: "icon") as? Data {
             imageView.image = UIImage(data: iconData)
         }
-        if let onstock = objectMenuItem?.value(forKey: "on_stock") as? Bool {
-            sellButton.setTitle(onstock ? NSLocalizedString("Stop to Sell", comment: "Sell button title for sellable item") : NSLocalizedString("Sell Again", comment: "Sell button title for unsellable item"), for: .normal)
-        }
         cameraButton.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera)
         photoButton.isEnabled = UIImagePickerController.isSourceTypeAvailable(.photoLibrary)
     }
@@ -89,7 +77,6 @@ class ItemInfoViewController: UIViewController, UIImagePickerControllerDelegate,
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         imageView.image = info[UIImagePickerControllerEditedImage] as? UIImage
         picker.dismiss(animated: true, completion: nil)
-        NSLog("image is changed")
         if let image = imageView.image {
             if let data = UIImagePNGRepresentation(image) {
                 objectMenuItem?.setValue(data, forKey: "icon")
@@ -101,6 +88,17 @@ class ItemInfoViewController: UIViewController, UIImagePickerControllerDelegate,
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
+    }
+    
+    // MARK - Tool func
+    func sell() {
+        objectMenuItem?.setValue(true, forKey: "on_stock")
+        let _ = navigationController?.popViewController(animated: true)
+    }
+    
+    func unsell() {
+        objectMenuItem?.setValue(false, forKey: "on_stock")
+        let _ = navigationController?.popViewController(animated: true)
     }
 
     /*
