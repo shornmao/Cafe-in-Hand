@@ -170,12 +170,15 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="No Name" textAlignment="natural" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="LiI-cq-1ke">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="No Name" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="LiI-cq-1ke">
                                 <frame key="frameInset" minX="83" minY="101" width="276" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words" keyboardType="alphabet" returnKeyType="done"/>
+                                <connections>
+                                    <action selector="doneEditing:" destination="azi-2W-XGC" eventType="editingDidEndOnExit" id="DfY-48-6ZZ"/>
+                                </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="USD" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yEp-VV-qtd">
                                 <frame key="frameInset" minX="161" minY="139" width="42" height="21"/>
@@ -195,16 +198,25 @@
                                 <frame key="frameInset" minX="201" minY="134" width="46" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Empty"/>
+                                <connections>
+                                    <action selector="emptyTapped:" destination="azi-2W-XGC" eventType="touchUpInside" id="U8C-yq-MFz"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jak-YT-Kfm">
                                 <frame key="frameInset" minX="313" minY="134" width="46" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Pay"/>
+                                <connections>
+                                    <action selector="payTapped:" destination="azi-2W-XGC" eventType="touchUpInside" id="5Md-ac-XQh"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JE0-74-f2L">
                                 <frame key="frameInset" minX="255" minY="134" width="56" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Discard"/>
+                                <connections>
+                                    <action selector="discardTapped:" destination="azi-2W-XGC" eventType="touchUpInside" id="yZd-c9-gvY"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -212,6 +224,8 @@
                     <tabBarItem key="tabBarItem" title="Order" id="uVb-yI-yQF"/>
                     <navigationItem key="navigationItem" title="Sellable" id="8tR-7v-lxi"/>
                     <connections>
+                        <outlet property="idLabel" destination="E22-35-DtU" id="56b-Pr-Ljc"/>
+                        <outlet property="nameLabel" destination="LiI-cq-1ke" id="fNp-k3-Ie7"/>
                         <outlet property="tableView" destination="Cgy-Kb-z6f" id="FYe-VA-qeU"/>
                         <outlet property="totalLabel" destination="xwH-SY-d55" id="UVC-Ur-xRm"/>
                     </connections>

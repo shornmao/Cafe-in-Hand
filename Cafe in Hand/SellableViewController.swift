@@ -11,17 +11,70 @@ import CoreData
 
 class SellableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate, OrderItemCellDelegate {
     
+    var amountList : [IndexPath : Int] = [:]
+    var fetchController : NSFetchedResultsController<NSFetchRequestResult>?
+    var orderDate : NSDate?
+    let defaultGuestName = NSLocalizedString("No Name", comment: "Default guest name")
+    let defaultTotal = 0.0
+
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var totalLabel: UILabel!
+    @IBOutlet weak var idLabel: UILabel!
+    @IBOutlet weak var nameLabel: UITextField!
     
-    internal var amountDict : [String:Int] = [:]
-    internal var fetchController : NSFetchedResultsController<NSFetchRequestResult>?
+    @IBAction func doneEditing(_ sender: AnyObject) {
+        if let textField = sender as? UITextField {
+            textField.resignFirstResponder()
+        }
+    }
+
+    @IBAction func emptyTapped(_ sender: AnyObject) {
+        presentAlertConfirmation(NSLocalizedString("Amount for all item will be reset to zero.", comment: "Empty shopping cart warning message"), sender: sender as! UIButton, confirmedAction: emptyCart)
+    }
+
+    @IBAction func discardTapped(_ sender: AnyObject) {
+        presentAlertConfirmation(NSLocalizedString("Current order will be discarded and a new order will be created.", comment: "Discard and new order warning message"), sender: sender as! UIButton, confirmedAction: newOrder)
+    }
+
+    @IBAction func payTapped(_ sender: AnyObject) {
+    }
+    
+    // MARK - tool functions
+    func newOrder(_ : UIAlertAction? = nil) {
+        orderDate = NSDate()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .full
+        dateFormatter.timeStyle = .full
+        idLabel.text = DateFormatter.localizedString(from: orderDate as! Date, dateStyle: .medium, timeStyle: .medium)
+        nameLabel.text = defaultGuestName
+        emptyCart()
+    }
+    
+    func emptyCart(_ : UIAlertAction? = nil) {
+        totalLabel.text = "\(defaultTotal)"
+        amountList.removeAll()
+        for cell in tableView.visibleCells {
+            (cell as! OrderItemCell).amount = 0
+        }
+    }
+
+    func presentAlertConfirmation(_ questionMessage: String, sender: UIButton, confirmedAction: ((UIAlertAction)->Void)?) {
+        let alert = UIAlertController(title: NSLocalizedString("Are you sure?", comment: "Title for Confirm Message Box"), message: questionMessage, preferredStyle: .actionSheet)
+        let actionYes = UIAlertAction(title: NSLocalizedString("Yes", comment: "Title of Yes button"), style: .destructive, handler: confirmedAction)
+        let actionNo = UIAlertAction(title: NSLocalizedString("No", comment: "Title of No button"), style: .cancel, handler: nil)
+        alert.addAction(actionYes)
+        alert.addAction(actionNo)
+        
+        if let ppc = alert.popoverPresentationController {
+            ppc.sourceView = sender
+            ppc.sourceRect = sender.frame
+        }
+        present(alert, animated: true, completion: nil)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        totalLabel.text = "0.00"
-
         // Do any additional setup after loading the view.
         tableView.delegate = self
         tableView.dataSource = self
@@ -43,6 +96,9 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
                 fatalError("Failed to fetch on first time")
             }
         }
+        
+        // create new order
+        newOrder()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -65,20 +121,30 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     // MARK: - Order item cell delegate
-    func amountChanged(sender: OrderItemCell, deltaAmount: Int) {
-        let value = Int(sender.amountStepper.value)
-        if let name = sender.nameLabel.text {
-            if value != 0 {
-                amountDict[name] = value
+    func totalChanged(sender: OrderItemCell) {
+        if let indexPath = tableView.indexPath(for: sender) {
+            let amount = sender.amount
+            if amount != 0 {
+                amountList[indexPath] = amount
             } else {
-                amountDict.removeValue(forKey: name)
+                amountList.removeValue(forKey: indexPath)
             }
-        } else {
-            fatalError("Invalid item name")
         }
-        if let price = Double(sender.priceLabel.text!), deltaAmount != 0, let totalString = totalLabel.text, let total = Double(totalString) {
-            totalLabel.text = "\(total + Double(deltaAmount) * price)"
+        calculateTotal()
+    }
+    
+    func calculateTotal() {
+        var total = 0.0
+        for (indexPath, amount) in amountList {
+            if amount > 0 {
+                // calculate total
+                if let obj = fetchController?.object(at: indexPath) as? NSManagedObject {
+                    let price = obj.value(forKey: "price") as! Double
+                    total += (price * Double(amount))
+                }
+            }
         }
+        totalLabel.text = "\(total)"
     }
 
     // MARK: - Feched results controller delegate
@@ -108,6 +174,11 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
         case .update:
             // Using dequeueResuableCell will cause that table view counldn't refresh data
             if let cell = tableView.cellForRow(at: indexPath!) as? OrderItemCell {
+                if let amount = amountList[indexPath!] {
+                    cell.amount = amount
+                } else {
+                    cell.amount = 0
+                }
                 configure(for: cell, objMenuItem: anObject)
             }
             navigationItem.rightBarButtonItem?.isEnabled = true
@@ -139,6 +210,13 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Order Item Cell", for: indexPath) as! OrderItemCell
+        
+        // Configure the cell with amount from amount list
+        if let amount = amountList[indexPath] {
+            cell.amount = amount
+        } else {
+            cell.amount = 0
+        }
 
         // Configure the cell with info from fetched result controller
         configure(for: cell, objMenuItem: fetchController?.object(at: indexPath))
@@ -161,11 +239,7 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
         cell.delegate = self
         if let obj = objMenuItem as? NSManagedObject, let name = obj.value(forKey: "name") as? String, let price = obj.value(forKey: "price") as? Double {
             let icon = obj.value(forKey: "icon") as? Data
-            var amountVal = 0
-            if let val = amountDict[name] {
-                amountVal = val
-            }
-            cell.configure(name: name, price: price, image: icon, amount: amountVal)
+            cell.configure(name: name, image: icon, price: price)
         } else {
             fatalError("Failed to display item info")
         }

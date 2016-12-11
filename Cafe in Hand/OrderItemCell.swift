@@ -9,11 +9,36 @@
 import UIKit
 
 protocol OrderItemCellDelegate {
-    func amountChanged(sender: OrderItemCell, deltaAmount: Int)
+    func totalChanged(sender: OrderItemCell)
 }
 
 class OrderItemCell: UITableViewCell {
 
+    var delegate: OrderItemCellDelegate?
+    var amount: Int {
+        get {
+            return Int(amountStepper.value)
+        }
+        set {
+            amountStepper.value = Double(newValue)
+            amountStepperChanged(amountStepper)
+        }
+    }
+    var price: Double {
+        get {
+            return Double(priceLabel.text!)!
+        }
+        set {
+            priceLabel.text = "\(newValue)"
+            let oldTotal = Double(totalLabel.text!)!
+            let newTotal = price * amountStepper.value
+            totalLabel.text = "\(newTotal)"
+            if newTotal != oldTotal {
+                delegate?.totalChanged(sender: self)
+            }
+        }
+    }
+    
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var amountLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
@@ -22,17 +47,15 @@ class OrderItemCell: UITableViewCell {
     @IBOutlet weak var iconImageView: UIImageView!
 
     @IBAction func amountStepperChanged(_ sender: AnyObject) {
-        let oldVal = Int(amountLabel.text!)!
-        let newVal = Int(amountStepper.value)
-        let deltaVal = newVal - oldVal
-        amountLabel.text = "\(newVal)"
-        let subTotal = amountStepper.value * Double(priceLabel.text!)!
-        totalLabel.text = "\(subTotal)"
-        delegate?.amountChanged(sender: self, deltaAmount: deltaVal)
+        amountLabel.text = "\(Int(amountStepper.value))"
+        let oldTotal = Double(totalLabel.text!)!
+        let newTotal = amountStepper.value * Double(priceLabel.text!)!
+        totalLabel.text = "\(newTotal)"
+        if newTotal != oldTotal {
+            delegate?.totalChanged(sender: self)
+        }
     }
     
-    var delegate: OrderItemCellDelegate?
-
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -44,17 +67,14 @@ class OrderItemCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func configure(name: String, price: Double, image: Data?, amount: Int) {
+    func configure(name: String, image: Data?, price: Double) {
         nameLabel.text = name
-        priceLabel.text = "\(price)"
         if (image != nil) {
             iconImageView.image = UIImage(data: image!)
         } else {
             iconImageView.image = nil
         }
-        amountStepper.value = Double(amount)
-        amountLabel.text = "\(amount)"
-        totalLabel.text = "\(price * Double(amount))"
+        self.price = price
     }
-
+    
 }
