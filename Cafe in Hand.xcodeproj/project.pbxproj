@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		092074B81DF310FF00B5DDC8 /* OrderItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 092074B71DF310FF00B5DDC8 /* OrderItemCell.swift */; };
 		09217C141DF858D600273E1D /* ItemInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09217C131DF858D600273E1D /* ItemInfoViewController.swift */; };
+		09217C191DFEF36700273E1D /* CashPaymentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09217C171DFEF36700273E1D /* CashPaymentController.swift */; };
+		09217C1A1DFEF36700273E1D /* CashPaymentController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 09217C181DFEF36700273E1D /* CashPaymentController.xib */; };
 		09506FC61DEDC7CC00EB1D34 /* NewItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09506FC51DEDC7CC00EB1D34 /* NewItemViewController.swift */; };
 		0964A3511DD373E60050BF90 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0964A3501DD373E60050BF90 /* AppDelegate.swift */; };
 		0964A3561DD373E60050BF90 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0964A3541DD373E60050BF90 /* Main.storyboard */; };
@@ -22,6 +24,8 @@
 /* Begin PBXFileReference section */
 		092074B71DF310FF00B5DDC8 /* OrderItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderItemCell.swift; sourceTree = "<group>"; };
 		09217C131DF858D600273E1D /* ItemInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemInfoViewController.swift; sourceTree = "<group>"; };
+		09217C171DFEF36700273E1D /* CashPaymentController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CashPaymentController.swift; sourceTree = "<group>"; };
+		09217C181DFEF36700273E1D /* CashPaymentController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CashPaymentController.xib; sourceTree = "<group>"; };
 		09506FC51DEDC7CC00EB1D34 /* NewItemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewItemViewController.swift; sourceTree = "<group>"; };
 		0964A34D1DD373E60050BF90 /* Cafe in Hand.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cafe in Hand.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0964A3501DD373E60050BF90 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -70,6 +74,8 @@
 				092074B71DF310FF00B5DDC8 /* OrderItemCell.swift */,
 				09AC9B3B1DEDFC960024C7A5 /* UnsellableTableViewController.swift */,
 				09AC9B391DEDE6460024C7A5 /* SellableViewController.swift */,
+				09217C171DFEF36700273E1D /* CashPaymentController.swift */,
+				09217C181DFEF36700273E1D /* CashPaymentController.xib */,
 				09506FC51DEDC7CC00EB1D34 /* NewItemViewController.swift */,
 				0964A35A1DD373E60050BF90 /* Assets.xcassets */,
 				0964A35C1DD373E60050BF90 /* LaunchScreen.storyboard */,
@@ -142,6 +148,7 @@
 				0964A35E1DD373E60050BF90 /* LaunchScreen.storyboard in Resources */,
 				0964A35B1DD373E60050BF90 /* Assets.xcassets in Resources */,
 				0964A3561DD373E60050BF90 /* Main.storyboard in Resources */,
+				09217C1A1DFEF36700273E1D /* CashPaymentController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -159,6 +166,7 @@
 				092074B81DF310FF00B5DDC8 /* OrderItemCell.swift in Sources */,
 				09AC9B3C1DEDFC960024C7A5 /* UnsellableTableViewController.swift in Sources */,
 				09506FC61DEDC7CC00EB1D34 /* NewItemViewController.swift in Sources */,
+				09217C191DFEF36700273E1D /* CashPaymentController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

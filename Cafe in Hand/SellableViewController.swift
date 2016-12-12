@@ -13,7 +13,7 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
     
     var amountList : [IndexPath : Int] = [:]
     var fetchController : NSFetchedResultsController<NSFetchRequestResult>?
-    var orderDate : NSDate?
+    var orderDate : Date?
     let defaultGuestName = NSLocalizedString("No Name", comment: "Default guest name")
     let defaultTotal = 0.0
 
@@ -21,6 +21,7 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet weak var totalLabel: UILabel!
     @IBOutlet weak var idLabel: UILabel!
     @IBOutlet weak var nameLabel: UITextField!
+    @IBOutlet weak var payButton: UIButton!
     
     @IBAction func doneEditing(_ sender: AnyObject) {
         if let textField = sender as? UITextField {
@@ -37,15 +38,22 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
     }
 
     @IBAction func payTapped(_ sender: AnyObject) {
+        // check amount list, if no element, it dosen't make sense
+        guard !amountList.isEmpty else {
+            presentAlertInvalidation(NSLocalizedString("The order make no sense if no item is selected.", comment: "Error message for empty order"))
+            return
+        }
+        
+        presentAlertConfirmation(NSLocalizedString("Current order will be payed and closed, and also a new order will be created.", comment: "Pay order warning message"), sender: sender as! UIButton, confirmedAction: payOrder)
     }
     
     // MARK - tool functions
     func newOrder(_ : UIAlertAction? = nil) {
-        orderDate = NSDate()
+        orderDate = Date()
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .full
         dateFormatter.timeStyle = .full
-        idLabel.text = DateFormatter.localizedString(from: orderDate as! Date, dateStyle: .medium, timeStyle: .medium)
+        idLabel.text = DateFormatter.localizedString(from: orderDate!, dateStyle: .medium, timeStyle: .medium)
         nameLabel.text = defaultGuestName
         emptyCart()
     }
@@ -56,6 +64,43 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
         for cell in tableView.visibleCells {
             (cell as! OrderItemCell).amount = 0
         }
+    }
+    
+    func payOrder(_: UIAlertAction? = nil) {
+        // generate order
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        let guest = nameLabel.text
+        let orderObj = NSEntityDescription.insertNewObject(forEntityName: "Order", into: context)
+        orderObj.setValue(orderDate, forKey: "id")
+        orderObj.setValue(guest, forKey: "guest")
+        let orderItemList: NSSet = []
+        for (indexPath, amount) in amountList {
+            let orderItemObj = NSEntityDescription.insertNewObject(forEntityName: "OrderItem", into: context)
+            orderItemObj.setValue(amount, forKey: "amount")
+            if let menuItemObj = fetchController?.object(at: indexPath) {
+                orderItemObj.setValue(menuItemObj, forKey: "menu_item")
+            } else {
+                fatalError("Failed to located menu_item object")
+            }
+            orderItemList.adding(orderItemObj)
+        }
+        if orderItemList.count > 0 {
+            orderObj.setValue(orderItemList, forKey: "items")
+        }
+        
+        // pay for order with cash only
+        presentCashPayment(total: Double(totalLabel.text!)!)
+        
+        // create new order
+        newOrder()
+    }
+
+    func presentAlertInvalidation(_ errorMessage: String) {
+        let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Title for Error Message Box"), message: errorMessage, preferredStyle: .alert)
+        let action = UIAlertAction(title: NSLocalizedString("OK", comment: "Title of OK button"), style: .default, handler: nil)
+        alert.addAction(action)
+        present(alert, animated: true, completion: nil)
     }
 
     func presentAlertConfirmation(_ questionMessage: String, sender: UIButton, confirmedAction: ((UIAlertAction)->Void)?) {
@@ -70,6 +115,19 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
             ppc.sourceRect = sender.frame
         }
         present(alert, animated: true, completion: nil)
+    }
+    
+    // MARK - unimplement completely
+    func presentCashPayment(total: Double) {
+        let cashPaymentController = CashPaymentController(nibName: "CashPaymentController", bundle: nil)
+        cashPaymentController.payment = total
+        cashPaymentController.modalPresentationStyle = .popover
+        present(cashPaymentController, animated: true, completion: nil)
+        if let presentationController = cashPaymentController.popoverPresentationController {
+            presentationController.permittedArrowDirections = [.left, .right]
+            presentationController.sourceView = payButton
+            presentationController.sourceRect = payButton.frame
+        }
     }
 
     override func viewDidLoad() {

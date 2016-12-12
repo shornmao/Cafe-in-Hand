@@ -226,6 +226,7 @@
                     <connections>
                         <outlet property="idLabel" destination="E22-35-DtU" id="56b-Pr-Ljc"/>
                         <outlet property="nameLabel" destination="LiI-cq-1ke" id="fNp-k3-Ie7"/>
+                        <outlet property="payButton" destination="jak-YT-Kfm" id="iRo-8I-qFb"/>
                         <outlet property="tableView" destination="Cgy-Kb-z6f" id="FYe-VA-qeU"/>
                         <outlet property="totalLabel" destination="xwH-SY-d55" id="UVC-Ur-xRm"/>
                     </connections>
