@@ -71,6 +71,21 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
         let guest = nameLabel.text
+        if let order = NSEntityDescription.insertNewObject(forEntityName: "Order", into: context) as? ManagedOrder {
+            order.id = NSDate(timeInterval: 0, since: orderDate!)
+            order.guest = guest
+            for (indexPath, amount) in amountList {
+                let orderItemObj = NSEntityDescription.insertNewObject(forEntityName: "OrderItem", into: context)
+                orderItemObj.setValue(amount, forKey: "amount")
+                if let menuItemObj = fetchController?.object(at: indexPath) {
+                    orderItemObj.setValue(menuItemObj, forKey: "menu_item")
+                } else {
+                    fatalError("Failed to located menu_item object")
+                }
+                order.addToItems(orderItemObj)
+            }
+        }
+/*
         let orderObj = NSEntityDescription.insertNewObject(forEntityName: "Order", into: context)
         orderObj.setValue(orderDate, forKey: "id")
         orderObj.setValue(guest, forKey: "guest")
@@ -88,6 +103,7 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
         if orderItemList.count > 0 {
             orderObj.setValue(orderItemList, forKey: "items")
         }
+*/
         
         // pay for order with cash only
         presentCashPayment(total: Double(totalLabel.text!)!)
@@ -226,22 +242,24 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
         switch type {
         case .insert:
             tableView.insertRows(at: [newIndexPath!], with: .automatic)
+            navigationItem.rightBarButtonItem?.isEnabled = true
         case .delete:
             tableView.deleteRows(at: [indexPath!], with: .automatic)
             navigationItem.rightBarButtonItem?.isEnabled = true
         case .update:
-            // Using dequeueResuableCell will cause that table view counldn't refresh data
-            if let cell = tableView.cellForRow(at: indexPath!) as? OrderItemCell {
-                if let amount = amountList[indexPath!] {
-                    cell.amount = amount
-                } else {
-                    cell.amount = 0
-                }
-                configure(for: cell, objMenuItem: anObject)
+            if newIndexPath == nil {
+                tableView.reloadRows(at: [indexPath!], with: .automatic)
+            } else {
+                tableView.deleteRows(at: [indexPath!], with: .automatic)
+                tableView.insertRows(at: [newIndexPath!], with: .automatic)
             }
             navigationItem.rightBarButtonItem?.isEnabled = true
-        default:
-            break
+        case .move:
+            tableView.deleteRows(at: [indexPath!], with: .automatic)
+            tableView.insertRows(at: [newIndexPath!], with: .automatic)
+        // default is uneccessary, because all valid type is enumarated.
+//        default:
+//            break
         }
     }
     
@@ -277,7 +295,13 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
         }
 
         // Configure the cell with info from fetched result controller
-        configure(for: cell, objMenuItem: fetchController?.object(at: indexPath))
+        cell.delegate = self
+        if let obj = fetchController?.object(at: indexPath) as? NSManagedObject, let name = obj.value(forKey: "name") as? String, let price = obj.value(forKey: "price") as? Double {
+            let icon = obj.value(forKey: "icon") as? Data
+            cell.configure(name: name, image: icon, price: price)
+        } else {
+            fatalError("Failed to display item info")
+        }
         
         return cell
     }
@@ -292,17 +316,6 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
         return nil
     }
     
-    // tool func for configure table view cell with managed object
-    func configure(for cell: OrderItemCell, objMenuItem: Any) {
-        cell.delegate = self
-        if let obj = objMenuItem as? NSManagedObject, let name = obj.value(forKey: "name") as? String, let price = obj.value(forKey: "price") as? Double {
-            let icon = obj.value(forKey: "icon") as? Data
-            cell.configure(name: name, image: icon, price: price)
-        } else {
-            fatalError("Failed to display item info")
-        }
-    }
-
     // Override to support conditional editing of the table view.
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.

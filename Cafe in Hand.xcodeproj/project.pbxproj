@@ -7,10 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0916953D1E097DC8003EC4D2 /* ManagedOrder+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0916953B1E097DC8003EC4D2 /* ManagedOrder+CoreDataClass.swift */; };
+		0916953E1E097DC8003EC4D2 /* ManagedOrder+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0916953C1E097DC8003EC4D2 /* ManagedOrder+CoreDataProperties.swift */; };
 		092074B81DF310FF00B5DDC8 /* OrderItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 092074B71DF310FF00B5DDC8 /* OrderItemCell.swift */; };
 		09217C141DF858D600273E1D /* ItemInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09217C131DF858D600273E1D /* ItemInfoViewController.swift */; };
 		09217C191DFEF36700273E1D /* CashPaymentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09217C171DFEF36700273E1D /* CashPaymentController.swift */; };
 		09217C1A1DFEF36700273E1D /* CashPaymentController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 09217C181DFEF36700273E1D /* CashPaymentController.xib */; };
+		0923B6821E001DCE00F92D19 /* DailyReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0923B6811E001DCE00F92D19 /* DailyReportViewController.swift */; };
 		09506FC61DEDC7CC00EB1D34 /* NewItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09506FC51DEDC7CC00EB1D34 /* NewItemViewController.swift */; };
 		0964A3511DD373E60050BF90 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0964A3501DD373E60050BF90 /* AppDelegate.swift */; };
 		0964A3561DD373E60050BF90 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0964A3541DD373E60050BF90 /* Main.storyboard */; };
@@ -22,10 +25,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0916953B1E097DC8003EC4D2 /* ManagedOrder+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ManagedOrder+CoreDataClass.swift"; sourceTree = "<group>"; };
+		0916953C1E097DC8003EC4D2 /* ManagedOrder+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ManagedOrder+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		092074B71DF310FF00B5DDC8 /* OrderItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderItemCell.swift; sourceTree = "<group>"; };
 		09217C131DF858D600273E1D /* ItemInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemInfoViewController.swift; sourceTree = "<group>"; };
 		09217C171DFEF36700273E1D /* CashPaymentController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CashPaymentController.swift; sourceTree = "<group>"; };
 		09217C181DFEF36700273E1D /* CashPaymentController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CashPaymentController.xib; sourceTree = "<group>"; };
+		0923B6811E001DCE00F92D19 /* DailyReportViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DailyReportViewController.swift; sourceTree = "<group>"; };
 		09506FC51DEDC7CC00EB1D34 /* NewItemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewItemViewController.swift; sourceTree = "<group>"; };
 		0964A34D1DD373E60050BF90 /* Cafe in Hand.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cafe in Hand.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0964A3501DD373E60050BF90 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -52,6 +58,8 @@
 		0964A3441DD373E60050BF90 = {
 			isa = PBXGroup;
 			children = (
+				0916953B1E097DC8003EC4D2 /* ManagedOrder+CoreDataClass.swift */,
+				0916953C1E097DC8003EC4D2 /* ManagedOrder+CoreDataProperties.swift */,
 				0964A34F1DD373E60050BF90 /* Cafe in Hand */,
 				0964A34E1DD373E60050BF90 /* Products */,
 			);
@@ -70,6 +78,7 @@
 			children = (
 				0964A3501DD373E60050BF90 /* AppDelegate.swift */,
 				0964A3541DD373E60050BF90 /* Main.storyboard */,
+				0923B6811E001DCE00F92D19 /* DailyReportViewController.swift */,
 				09217C131DF858D600273E1D /* ItemInfoViewController.swift */,
 				092074B71DF310FF00B5DDC8 /* OrderItemCell.swift */,
 				09AC9B3B1DEDFC960024C7A5 /* UnsellableTableViewController.swift */,
@@ -112,7 +121,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0800;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Shorn Mo";
 				TargetAttributes = {
 					0964A34C1DD373E60050BF90 = {
@@ -159,14 +168,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0916953E1E097DC8003EC4D2 /* ManagedOrder+CoreDataProperties.swift in Sources */,
 				0964A3591DD373E60050BF90 /* Cafe_in_Hand.xcdatamodeld in Sources */,
 				0964A3511DD373E60050BF90 /* AppDelegate.swift in Sources */,
 				09217C141DF858D600273E1D /* ItemInfoViewController.swift in Sources */,
 				09AC9B3A1DEDE6460024C7A5 /* SellableViewController.swift in Sources */,
+				0916953D1E097DC8003EC4D2 /* ManagedOrder+CoreDataClass.swift in Sources */,
 				092074B81DF310FF00B5DDC8 /* OrderItemCell.swift in Sources */,
 				09AC9B3C1DEDFC960024C7A5 /* UnsellableTableViewController.swift in Sources */,
 				09506FC61DEDC7CC00EB1D34 /* NewItemViewController.swift in Sources */,
 				09217C191DFEF36700273E1D /* CashPaymentController.swift in Sources */,
+				0923B6821E001DCE00F92D19 /* DailyReportViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -210,6 +222,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -232,7 +245,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -260,6 +273,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -276,7 +290,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -289,6 +303,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = NS9G9D84LF;
 				INFOPLIST_FILE = "Cafe in Hand/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -302,6 +317,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = NS9G9D84LF;
 				INFOPLIST_FILE = "Cafe in Hand/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

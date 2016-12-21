@@ -92,10 +92,10 @@ class NewItemViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
             return
         }
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "MenuItem")
-        request.predicate = NSPredicate(value: true)
+        request.predicate = NSPredicate(format: "%K = %@", "name", itemName)
         do {
             let objList = try context.fetch(request)
-            guard !objList.isEmpty else {
+            guard objList.isEmpty else {
                 presentAlertInvalidation(NSLocalizedString("Item name exists already.", comment: "Error message for duplicated item"))
                 return
             }
