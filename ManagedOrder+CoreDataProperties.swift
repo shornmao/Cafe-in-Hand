@@ -2,7 +2,7 @@
 //  ManagedOrder+CoreDataProperties.swift
 //  Cafe in Hand
 //
-//  Created by Shorn Mo on 2016/12/20.
+//  Created by Shorn Mo on 2016/12/24.
 //  Copyright © 2016年 Shorn Mo. All rights reserved.
 //
 
@@ -16,14 +16,52 @@ extension ManagedOrder {
         return NSFetchRequest<ManagedOrder>(entityName: "Order");
     }
 
+    public var dateid: String? {
+        get {
+            if let calendar = NSCalendar(identifier: .ISO8601) {
+                let year = calendar.component(.year, from: id as! Date)
+                let month = calendar.component(.month, from: id as! Date)
+                let day = calendar.component(.day, from: id as! Date)
+                return "\(year * 10000 + month * 100 + day)"
+            } else {
+                return nil
+            }
+        }
+    }
     @NSManaged public var guest: String?
     @NSManaged public var id: NSDate?
-    public var date_id: String? {
+    public var monthid: String? {
         get {
-            if let calendar = NSCalendar(identifier: .ISO8601), let date = id as? Date {
-                let year = Int64(calendar.component(.year, from: date))
-                let month = Int64(calendar.component(.month, from: date))
+            if let calendar = NSCalendar(identifier: .ISO8601) {
+                let year = calendar.component(.year, from: id as! Date)
+                let month = calendar.component(.month, from: id as! Date)
                 return "\(year * 100 + month)"
+            } else {
+                return nil
+            }
+        }
+    }
+    public var total: NSDecimalNumber? {
+        get {
+            let sum = NSDecimalNumber(value: 0)
+            guard let _ = items else {
+                return nil
+            }
+            for item in items! {
+                if let orderItem = item as? ManagedOrderItem, let subtotal = orderItem.subtotal {
+                    sum.adding(subtotal)
+                } else {
+                    return nil
+                }
+            }
+            return sum
+        }
+    }
+    public var yearid: String? {
+        get {
+            if let calendar = NSCalendar(identifier: .ISO8601) {
+                let year = calendar.component(.year, from: id as! Date)
+                return "\(year)"
             } else {
                 return nil
             }
@@ -37,10 +75,10 @@ extension ManagedOrder {
 extension ManagedOrder {
 
     @objc(addItemsObject:)
-    @NSManaged public func addToItems(_ value: NSManagedObject)
+    @NSManaged public func addToItems(_ value: ManagedOrderItem)
 
     @objc(removeItemsObject:)
-    @NSManaged public func removeFromItems(_ value: NSManagedObject)
+    @NSManaged public func removeFromItems(_ value: ManagedOrderItem)
 
     @objc(addItems:)
     @NSManaged public func addToItems(_ values: NSSet)

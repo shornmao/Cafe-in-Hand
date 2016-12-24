@@ -47,7 +47,79 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
         presentAlertConfirmation(NSLocalizedString("Current order will be payed and closed, and also a new order will be created.", comment: "Pay order warning message"), sender: sender as! UIButton, confirmedAction: payOrder)
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        // Do any additional setup after loading the view.
+        tableView.delegate = self
+        tableView.dataSource = self
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(SellableViewController.saveTapped))
+        navigationItem.rightBarButtonItem?.isEnabled = false
+
+        // use fetched results controller
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "MenuItem")
+        request.predicate = NSPredicate(format: "%K == YES", "on_stock")
+        request.sortDescriptors = [NSSortDescriptor(key: "category.name", ascending: true)]
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+        if let context = appDelegate?.persistentContainer.viewContext {
+            
+            // only for debugging, uncomment the following line for release
+            deleteOrders(context)
+            
+            fetchController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: "category.name", cacheName: nil)
+            fetchController?.delegate = self
+            do {
+                try fetchController?.performFetch()
+            } catch {
+                fatalError("Failed to fetch on first time")
+            }
+        }
+        
+        // create new order
+        newOrder()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if let context = fetchController?.managedObjectContext {
+            navigationItem.rightBarButtonItem?.isEnabled = context.hasChanges
+        }
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
     // MARK - tool functions
+    func saveTapped() {
+        if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
+            appDelegate.saveContext()
+        }
+        navigationItem.rightBarButtonItem?.isEnabled = false
+    }
+    
+    func deleteOrders(_ context: NSManagedObjectContext) {
+        let fetchRequestOrderItem = NSFetchRequest<NSFetchRequestResult>(entityName: "OrderItem")
+        let deleteRequestOrderItem = NSBatchDeleteRequest(fetchRequest: fetchRequestOrderItem)
+        do {
+            try context.execute(deleteRequestOrderItem)
+        } catch {
+            let nserror = error as NSError
+            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+        }
+        
+        let fetchRequestOrder = NSFetchRequest<NSFetchRequestResult>(entityName: "Order")
+        let deleteRequestOrder = NSBatchDeleteRequest(fetchRequest: fetchRequestOrder)
+        do {
+            try context.execute(deleteRequestOrder)
+        } catch {
+            let nserror = error as NSError
+            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+        }
+    }
+    
     func newOrder(_ : UIAlertAction? = nil) {
         orderDate = Date()
         let dateFormatter = DateFormatter()
@@ -75,35 +147,21 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
             order.id = NSDate(timeInterval: 0, since: orderDate!)
             order.guest = guest
             for (indexPath, amount) in amountList {
-                let orderItemObj = NSEntityDescription.insertNewObject(forEntityName: "OrderItem", into: context)
-                orderItemObj.setValue(amount, forKey: "amount")
-                if let menuItemObj = fetchController?.object(at: indexPath) {
-                    orderItemObj.setValue(menuItemObj, forKey: "menu_item")
+                if let orderItem = NSEntityDescription.insertNewObject(forEntityName: "OrderItem", into: context) as? ManagedOrderItem {
+                    orderItem.amount = Int16(amount)
+                    if let menuItemObj = fetchController?.object(at: indexPath) as? NSManagedObject {
+                        orderItem.price = menuItemObj.value(forKey: "price") as? NSDecimalNumber
+                        orderItem.name = menuItemObj.value(forKey: "name") as? String
+                        orderItem.menuitem = menuItemObj
+                    } else {
+                        fatalError("Failed to located menu_item object")
+                    }
+                    order.addToItems(orderItem)
                 } else {
-                    fatalError("Failed to located menu_item object")
+                    fatalError("Failed to insert new order item")
                 }
-                order.addToItems(orderItemObj)
             }
         }
-/*
-        let orderObj = NSEntityDescription.insertNewObject(forEntityName: "Order", into: context)
-        orderObj.setValue(orderDate, forKey: "id")
-        orderObj.setValue(guest, forKey: "guest")
-        let orderItemList: NSSet = []
-        for (indexPath, amount) in amountList {
-            let orderItemObj = NSEntityDescription.insertNewObject(forEntityName: "OrderItem", into: context)
-            orderItemObj.setValue(amount, forKey: "amount")
-            if let menuItemObj = fetchController?.object(at: indexPath) {
-                orderItemObj.setValue(menuItemObj, forKey: "menu_item")
-            } else {
-                fatalError("Failed to located menu_item object")
-            }
-            orderItemList.adding(orderItemObj)
-        }
-        if orderItemList.count > 0 {
-            orderObj.setValue(orderItemList, forKey: "items")
-        }
-*/
         
         // pay for order with cash only
         presentCashPayment(total: Double(totalLabel.text!)!)
@@ -111,14 +169,14 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
         // create new order
         newOrder()
     }
-
+    
     func presentAlertInvalidation(_ errorMessage: String) {
         let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Title for Error Message Box"), message: errorMessage, preferredStyle: .alert)
         let action = UIAlertAction(title: NSLocalizedString("OK", comment: "Title of OK button"), style: .default, handler: nil)
         alert.addAction(action)
         present(alert, animated: true, completion: nil)
     }
-
+    
     func presentAlertConfirmation(_ questionMessage: String, sender: UIButton, confirmedAction: ((UIAlertAction)->Void)?) {
         let alert = UIAlertController(title: NSLocalizedString("Are you sure?", comment: "Title for Confirm Message Box"), message: questionMessage, preferredStyle: .actionSheet)
         let actionYes = UIAlertAction(title: NSLocalizedString("Yes", comment: "Title of Yes button"), style: .destructive, handler: confirmedAction)
@@ -133,7 +191,7 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
         present(alert, animated: true, completion: nil)
     }
     
-    // MARK - unimplement completely
+    // Implement imcompletely
     func presentCashPayment(total: Double) {
         let cashPaymentController = CashPaymentController(nibName: "CashPaymentController", bundle: nil)
         cashPaymentController.payment = total
@@ -144,67 +202,6 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
             presentationController.sourceView = payButton
             presentationController.sourceRect = payButton.frame
         }
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        // Do any additional setup after loading the view.
-        tableView.delegate = self
-        tableView.dataSource = self
-        
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(SellableViewController.saveTapped))
-        navigationItem.rightBarButtonItem?.isEnabled = false
-
-        // use fetched results controller
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "MenuItem")
-        request.predicate = NSPredicate(format: "%K == YES", "on_stock")
-        request.sortDescriptors = [NSSortDescriptor(key: "category.name", ascending: true)]
-        let appDelegate = UIApplication.shared.delegate as? AppDelegate
-        if let context = appDelegate?.persistentContainer.viewContext {
-            fetchController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: "category.name", cacheName: nil)
-            fetchController?.delegate = self
-            do {
-                try fetchController?.performFetch()
-            } catch {
-                fatalError("Failed to fetch on first time")
-            }
-        }
-        
-        // create new order
-        newOrder()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        if let context = fetchController?.managedObjectContext {
-            navigationItem.rightBarButtonItem?.isEnabled = context.hasChanges
-        }
-    }
-    
-    func saveTapped() {
-        if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
-            appDelegate.saveContext()
-        }
-        navigationItem.rightBarButtonItem?.isEnabled = false
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    // MARK: - Order item cell delegate
-    func totalChanged(sender: OrderItemCell) {
-        if let indexPath = tableView.indexPath(for: sender) {
-            let amount = sender.amount
-            if amount != 0 {
-                amountList[indexPath] = amount
-            } else {
-                amountList.removeValue(forKey: indexPath)
-            }
-        }
-        calculateTotal()
     }
     
     func calculateTotal() {
@@ -220,7 +217,20 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
         }
         totalLabel.text = "\(total)"
     }
-
+    
+    // MARK: - Order item cell delegate
+    func totalChanged(sender: OrderItemCell) {
+        if let indexPath = tableView.indexPath(for: sender) {
+            let amount = sender.amount
+            if amount != 0 {
+                amountList[indexPath] = amount
+            } else {
+                amountList.removeValue(forKey: indexPath)
+            }
+        }
+        calculateTotal()
+    }
+    
     // MARK: - Feched results controller delegate
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         navigationItem.rightBarButtonItem?.isEnabled = true
