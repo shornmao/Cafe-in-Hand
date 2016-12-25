@@ -43,13 +43,13 @@ extension ManagedOrder {
     }
     public var total: NSDecimalNumber? {
         get {
-            let sum = NSDecimalNumber(value: 0)
+            var sum = NSDecimalNumber(value: 0)
             guard let _ = items else {
                 return nil
             }
             for item in items! {
                 if let orderItem = item as? ManagedOrderItem, let subtotal = orderItem.subtotal {
-                    sum.adding(subtotal)
+                    sum = sum.adding(subtotal)
                 } else {
                     return nil
                 }

@@ -8,16 +8,26 @@
 
 import UIKit
 
+protocol CashPaymentControllerDelegate {
+    func dismissed(_ controller: CashPaymentController, cancel: Bool)
+}
+
 class CashPaymentController: UIViewController {
     
     var payment = 0.0
+    
+    var dismissionDelegate: CashPaymentControllerDelegate?
 
     @IBOutlet weak var payLabel: UILabel!
     @IBOutlet weak var changeLabel: UILabel!
     @IBOutlet weak var chargeField: UITextField!
 
     @IBAction func doneTapped(_ sender: AnyObject) {
-        dismiss(animated: true, completion: nil)
+        dismissionDelegate?.dismissed(self, cancel: false)
+    }
+
+    @IBAction func cancelTapped(_ sender: Any) {
+        dismissionDelegate?.dismissed(self, cancel: true)
     }
     
     @IBAction func chargeEndEditing(_ sender: AnyObject) {

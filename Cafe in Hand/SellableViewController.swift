@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class SellableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate, OrderItemCellDelegate {
+class SellableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate, OrderItemCellDelegate, CashPaymentControllerDelegate {
     
     var amountList : [IndexPath : Int] = [:]
     var fetchController : NSFetchedResultsController<NSFetchRequestResult>?
@@ -65,7 +65,7 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
         if let context = appDelegate?.persistentContainer.viewContext {
             
             // only for debugging, uncomment the following line for release
-            deleteOrders(context)
+            // deleteOrders(context)
             
             fetchController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: "category.name", cacheName: nil)
             fetchController?.delegate = self
@@ -92,7 +92,8 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
         // Dispose of any resources that can be recreated.
     }
     
-    // MARK - tool functions
+    // MARK: - tool functions
+    
     func saveTapped() {
         if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
             appDelegate.saveContext()
@@ -139,7 +140,21 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func payOrder(_: UIAlertAction? = nil) {
-        // generate order
+        // pay for order with cash only
+        let total = Double(totalLabel.text!)!
+        let cashPaymentController = CashPaymentController(nibName: "CashPaymentController", bundle: nil)
+        cashPaymentController.payment = total
+        cashPaymentController.modalPresentationStyle = .popover
+        cashPaymentController.dismissionDelegate = self
+        present(cashPaymentController, animated: true, completion: nil)
+        if let presentationController = cashPaymentController.popoverPresentationController {
+            presentationController.permittedArrowDirections = [.left, .right]
+            presentationController.sourceView = payButton
+            presentationController.sourceRect = payButton.frame
+        }
+    }
+    
+    func generateOrder() {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
         let guest = nameLabel.text
@@ -163,9 +178,6 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
             }
         }
         
-        // pay for order with cash only
-        presentCashPayment(total: Double(totalLabel.text!)!)
-        
         // create new order
         newOrder()
     }
@@ -177,6 +189,13 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
         present(alert, animated: true, completion: nil)
     }
     
+    func presentAlertInformation(_ infoMessage: String) {
+        let alert = UIAlertController(title: NSLocalizedString("Acknowledge", comment: "Title for Info Message Box"), message: infoMessage, preferredStyle: .alert)
+        let action = UIAlertAction(title: NSLocalizedString("OK", comment: "Title of OK button"), style: .default, handler: nil)
+        alert.addAction(action)
+        present(alert, animated: true, completion: nil)
+    }
+
     func presentAlertConfirmation(_ questionMessage: String, sender: UIButton, confirmedAction: ((UIAlertAction)->Void)?) {
         let alert = UIAlertController(title: NSLocalizedString("Are you sure?", comment: "Title for Confirm Message Box"), message: questionMessage, preferredStyle: .actionSheet)
         let actionYes = UIAlertAction(title: NSLocalizedString("Yes", comment: "Title of Yes button"), style: .destructive, handler: confirmedAction)
@@ -189,19 +208,6 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
             ppc.sourceRect = sender.frame
         }
         present(alert, animated: true, completion: nil)
-    }
-    
-    // Implement imcompletely
-    func presentCashPayment(total: Double) {
-        let cashPaymentController = CashPaymentController(nibName: "CashPaymentController", bundle: nil)
-        cashPaymentController.payment = total
-        cashPaymentController.modalPresentationStyle = .popover
-        present(cashPaymentController, animated: true, completion: nil)
-        if let presentationController = cashPaymentController.popoverPresentationController {
-            presentationController.permittedArrowDirections = [.left, .right]
-            presentationController.sourceView = payButton
-            presentationController.sourceRect = payButton.frame
-        }
     }
     
     func calculateTotal() {
@@ -231,7 +237,21 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
         calculateTotal()
     }
     
+    // MARK: - Cash payment controller delegate
+    
+    func dismissed(_ controller: CashPaymentController, cancel: Bool) {
+        if cancel {
+            controller.dismiss(animated: true, completion: nil)
+        } else {
+            controller.dismiss(animated: true, completion: {
+                self.generateOrder()
+                self.presentAlertInformation(NSLocalizedString("Order is payed", comment: "Information Message for Order Payment"))
+            })
+        }
+    }
+    
     // MARK: - Feched results controller delegate
+    
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         navigationItem.rightBarButtonItem?.isEnabled = true
         tableView.beginUpdates()
