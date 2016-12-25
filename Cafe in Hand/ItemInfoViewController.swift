@@ -36,6 +36,11 @@ class ItemInfoViewController: UIViewController, UIImagePickerControllerDelegate,
         pickImage(sourceType: .camera)
     }
 
+    @IBAction func clearTapped(_ sender: Any) {
+        imageView.image = nil
+        objectMenuItem?.setValue(nil, forKey: "icon")
+    }
+
     func pickImage(sourceType: UIImagePickerControllerSourceType) {
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self

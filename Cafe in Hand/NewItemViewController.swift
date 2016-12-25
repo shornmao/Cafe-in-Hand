@@ -38,6 +38,10 @@ class NewItemViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         pickImage(sourceType: .camera)
     }
     
+    @IBAction func clearTapped(_ sender: Any) {
+        iconImageView.image = nil
+    }
+    
     @IBAction func categoryEditingEnd(_ sender: AnyObject) {
         guard categoryTextField == sender as? UITextField else {
             return
