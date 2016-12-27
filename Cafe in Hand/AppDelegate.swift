@@ -13,7 +13,7 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    var hasNewOrderPending = false
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -69,6 +69,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                  */
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
+
+            // only for debugging, uncomment the following line for release
+            // deleteOrders(persistentContainer.viewContext)
         })
         return container
     }()
@@ -88,6 +91,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
-
+    
+    // MARK: - Core Data Persistent Store Initilization
+    
+    func deleteOrders(_ context: NSManagedObjectContext) {
+        // delete all Order and OrderItem, only for debugging
+        let fetchRequestOrderItem = NSFetchRequest<NSFetchRequestResult>(entityName: "OrderItem")
+        let deleteRequestOrderItem = NSBatchDeleteRequest(fetchRequest: fetchRequestOrderItem)
+        do {
+            try context.execute(deleteRequestOrderItem)
+        } catch {
+            let nserror = error as NSError
+            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+        }
+        
+        let fetchRequestOrder = NSFetchRequest<NSFetchRequestResult>(entityName: "Order")
+        let deleteRequestOrder = NSBatchDeleteRequest(fetchRequest: fetchRequestOrder)
+        do {
+            try context.execute(deleteRequestOrder)
+        } catch {
+            let nserror = error as NSError
+            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+        }
+    }
+    
 }
 

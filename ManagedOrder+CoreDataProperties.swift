@@ -2,7 +2,7 @@
 //  ManagedOrder+CoreDataProperties.swift
 //  Cafe in Hand
 //
-//  Created by Shorn Mo on 2016/12/24.
+//  Created by Shorn Mo on 2016/12/27.
 //  Copyright © 2016年 Shorn Mo. All rights reserved.
 //
 
@@ -16,57 +16,10 @@ extension ManagedOrder {
         return NSFetchRequest<ManagedOrder>(entityName: "Order");
     }
 
-    public var dateid: String? {
-        get {
-            if let calendar = NSCalendar(identifier: .ISO8601) {
-                let year = calendar.component(.year, from: id as! Date)
-                let month = calendar.component(.month, from: id as! Date)
-                let day = calendar.component(.day, from: id as! Date)
-                return "\(year * 10000 + month * 100 + day)"
-            } else {
-                return nil
-            }
-        }
-    }
+    @NSManaged public var dayid: Int64
     @NSManaged public var guest: String?
     @NSManaged public var id: NSDate?
-    public var monthid: String? {
-        get {
-            if let calendar = NSCalendar(identifier: .ISO8601) {
-                let year = calendar.component(.year, from: id as! Date)
-                let month = calendar.component(.month, from: id as! Date)
-                return "\(year * 100 + month)"
-            } else {
-                return nil
-            }
-        }
-    }
-    public var total: NSDecimalNumber? {
-        get {
-            var sum = NSDecimalNumber(value: 0)
-            guard let _ = items else {
-                return nil
-            }
-            for item in items! {
-                if let orderItem = item as? ManagedOrderItem, let subtotal = orderItem.subtotal {
-                    sum = sum.adding(subtotal)
-                } else {
-                    return nil
-                }
-            }
-            return sum
-        }
-    }
-    public var yearid: String? {
-        get {
-            if let calendar = NSCalendar(identifier: .ISO8601) {
-                let year = calendar.component(.year, from: id as! Date)
-                return "\(year)"
-            } else {
-                return nil
-            }
-        }
-    }
+    @NSManaged public var total: NSDecimalNumber?
     @NSManaged public var items: NSSet?
 
 }

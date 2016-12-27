@@ -64,9 +64,6 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
         let appDelegate = UIApplication.shared.delegate as? AppDelegate
         if let context = appDelegate?.persistentContainer.viewContext {
             
-            // only for debugging, uncomment the following line for release
-            // deleteOrders(context)
-            
             fetchController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: "category.name", cacheName: nil)
             fetchController?.delegate = self
             do {
@@ -99,26 +96,6 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
             appDelegate.saveContext()
         }
         navigationItem.rightBarButtonItem?.isEnabled = false
-    }
-    
-    func deleteOrders(_ context: NSManagedObjectContext) {
-        let fetchRequestOrderItem = NSFetchRequest<NSFetchRequestResult>(entityName: "OrderItem")
-        let deleteRequestOrderItem = NSBatchDeleteRequest(fetchRequest: fetchRequestOrderItem)
-        do {
-            try context.execute(deleteRequestOrderItem)
-        } catch {
-            let nserror = error as NSError
-            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-        }
-        
-        let fetchRequestOrder = NSFetchRequest<NSFetchRequestResult>(entityName: "Order")
-        let deleteRequestOrder = NSBatchDeleteRequest(fetchRequest: fetchRequestOrder)
-        do {
-            try context.execute(deleteRequestOrder)
-        } catch {
-            let nserror = error as NSError
-            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-        }
     }
     
     func newOrder(_ : UIAlertAction? = nil) {
@@ -160,7 +137,13 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
         let guest = nameLabel.text
         if let order = NSEntityDescription.insertNewObject(forEntityName: "Order", into: context) as? ManagedOrder {
             order.id = NSDate(timeInterval: 0, since: orderDate!)
+            let calendar = Calendar(identifier: .iso8601)
+            let year = calendar.component(.year, from: orderDate!)
+            let month = calendar.component(.month, from: orderDate!)
+            let day = calendar.component(.day, from: orderDate!)
+            order.dayid = Int64(year * 10000 + month * 100 + day)
             order.guest = guest
+            order.total = NSDecimalNumber(string: totalLabel.text)
             for (indexPath, amount) in amountList {
                 if let orderItem = NSEntityDescription.insertNewObject(forEntityName: "OrderItem", into: context) as? ManagedOrderItem {
                     orderItem.amount = Int16(amount)
@@ -176,7 +159,11 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
                     fatalError("Failed to insert new order item")
                 }
             }
+        } else {
+            fatalError("Failed to open 'Order'")
         }
+        
+        appDelegate.hasNewOrderPending = true
         
         // create new order
         newOrder()
@@ -375,9 +362,11 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        if let itemInfoViewController = segue.destination as? ItemInfoViewController, let cell = sender as? UITableViewCell, let indexPath = tableView.indexPath(for: cell), let obj = fetchController?.object(at: indexPath) {
-            itemInfoViewController.objectMenuItem = obj as? NSManagedObject
-            itemInfoViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Unsell", comment: "Unsell Button Title"), style: .done, target: itemInfoViewController, action: #selector(ItemInfoViewController.unsell))
+        if let itemInfoViewController = segue.destination as? ItemInfoViewController {
+            if let cell = sender as? UITableViewCell, let indexPath = tableView.indexPath(for: cell), let obj = fetchController?.object(at: indexPath) {
+                itemInfoViewController.objectMenuItem = obj as? NSManagedObject
+                itemInfoViewController.navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Unsell", comment: "Unsell Button Title"), style: .done, target: itemInfoViewController, action: #selector(ItemInfoViewController.unsell))
+            }
         }
     }
 

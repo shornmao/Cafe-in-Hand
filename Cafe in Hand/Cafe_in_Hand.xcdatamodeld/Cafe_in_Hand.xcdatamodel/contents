@@ -13,12 +13,10 @@
         <relationship name="orderitems" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="OrderItem" inverseName="menuitem" inverseEntity="OrderItem" syncable="YES"/>
     </entity>
     <entity name="Order" representedClassName=".ManagedOrder" syncable="YES">
-        <attribute name="dateid" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dayid" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="guest" attributeType="String" defaultValueString="Unnamed" syncable="YES"/>
         <attribute name="id" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="monthid" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
-        <attribute name="total" optional="YES" transient="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
-        <attribute name="yearid" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
+        <attribute name="total" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
         <relationship name="items" toMany="YES" deletionRule="Cascade" destinationEntity="OrderItem" inverseName="order" inverseEntity="OrderItem" syncable="YES"/>
     </entity>
     <entity name="OrderItem" representedClassName=".ManagedOrderItem" syncable="YES">
@@ -32,7 +30,7 @@
     <elements>
         <element name="Category" positionX="-362" positionY="45" width="128" height="73"/>
         <element name="MenuItem" positionX="-54" positionY="0" width="128" height="133"/>
-        <element name="Order" positionX="-504" positionY="153" width="128" height="148"/>
+        <element name="Order" positionX="-504" positionY="153" width="128" height="118"/>
         <element name="OrderItem" positionX="-288" positionY="153" width="128" height="133"/>
     </elements>
 </model>
