@@ -83,7 +83,7 @@ class OrdersViewController: UITableViewController {
             sectionNameMonths.removeAll()
             orderInfoList.removeAll()
             var currentMonth: Int?
-            var section = 0
+            var section = -1
             for obj in objList {
                 if let dict = obj as? NSDictionary {
                     if let day = dict.value(forKey: "dayid") as? Int, let count = dict.value(forKey: "count") as? NSNumber, let sum = dict.value(forKey: "sum") as? NSDecimalNumber {
