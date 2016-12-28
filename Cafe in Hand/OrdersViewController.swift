@@ -11,8 +11,8 @@ import CoreData
 
 class OrdersViewController: UITableViewController {
     
-    var sectionNameMonths: [String] = []
-    var orderInfoList: [[(day:Int, count:Int, sum:Double)]] = [[]]
+    var sectionNameMonths:[String] = []
+    var orderInfoList:[[(day:Int, count:Int, sum:Double)]] = [[]]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,6 +24,8 @@ class OrdersViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         
         fetch()
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.hasNewOrderPending = false
     }
 
     override func didReceiveMemoryWarning() {
@@ -48,9 +50,9 @@ class OrdersViewController: UITableViewController {
         let delegate = UIApplication.shared.delegate as! AppDelegate
         let context = delegate.persistentContainer.viewContext
 
-        // option1: select dayid,count(dayid),sum(total) order by id group by dayid sort id from Order
+        // option1: select dayid,count(dayid),sum(total) order by id group by dayid from Order
         //          Note: dayid and total have to be not transient
-        // option2: select order.dayid, count(order.dayid), sum(subtotal) order by order.id group by  order.dayid sort order.id from OrderItem join Order
+        // option2: select order.dayid, count(order.dayid), sum(subtotal) order by order.id group by order.dayid from OrderItem join Order
         //          Note: Maybe more time for sum calculation
         
         // Implementation for option 1
@@ -118,7 +120,7 @@ class OrdersViewController: UITableViewController {
         }
         return "\(monthid)"
     }
-
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {

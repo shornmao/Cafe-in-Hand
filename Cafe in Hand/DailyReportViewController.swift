@@ -12,6 +12,7 @@ import CoreData
 class DailyReportViewController: UITableViewController {
     
     var dayid: Int?
+    var infoOrders: [(id:String, guest:String, total:Double)] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,34 +33,81 @@ class DailyReportViewController: UITableViewController {
                 navigationItem.title = dateFormatter.string(from: date)
             }
         }
+        
+        fetch()
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.pendingDayOfOrders.removeAll()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if let day = dayid {
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            if appDelegate.pendingDayOfOrders.contains(day) {
+                appDelegate.saveContext()
+                fetch()
+                appDelegate.pendingDayOfOrders.removeAll()
+                tableView.reloadData()
+            }
+        }
+    }
+    
+    // MARK: - Tools
+    
+    func fetch() {
+        // select id, guest, total order by id where dayid = <#dayid> from Order
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+        if let day = dayid, let context = appDelegate?.persistentContainer.viewContext {
+            let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Order")
+            request.predicate = NSPredicate(format: "dayid = %@", "\(day)")
+            request.sortDescriptors = [NSSortDescriptor(key: "id", ascending: false)]
+            request.propertiesToFetch = ["id", "guest", "total"]
+            request.resultType = .dictionaryResultType
+            do {
+                let objs = try context.fetch(request)
+                infoOrders.removeAll()
+                for obj in objs {
+                    if let dict = obj as? NSDictionary {
+                        if let date = dict["id"] as? Date, let guest = dict["guest"] as? String, let total = dict["total"] as? Double {
+                            let id = DateFormatter.localizedString(from: date, dateStyle: .medium, timeStyle: .medium)
+                            infoOrders.append((id,guest,total))
+                        }
+                    }
+                }
+            } catch {
+                fatalError("Failed to fetch <Order> for \(day)")
+            }
+        }
+    }
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        // calculate sections count from fetched result controller
+        return infoOrders.count
     }
 
-    /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Order Item Cell", for: indexPath)
 
-        // Configure the cell...
+        // Configure the cell with info from infoOrders
+        let currency = NSLocale.current.currencySymbol
+        let orderInfo = infoOrders[indexPath.row]
+        cell.textLabel?.text = "\(orderInfo.id)"
+        cell.detailTextLabel?.text = "\(orderInfo.guest) for \(currency!)\(orderInfo.total)"
 
         return cell
     }
-    */
 
     /*
     // Override to support conditional editing of the table view.

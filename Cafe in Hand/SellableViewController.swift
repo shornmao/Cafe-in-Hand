@@ -100,9 +100,6 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
     
     func newOrder(_ : UIAlertAction? = nil) {
         orderDate = Date()
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .full
-        dateFormatter.timeStyle = .full
         idLabel.text = DateFormatter.localizedString(from: orderDate!, dateStyle: .medium, timeStyle: .medium)
         nameLabel.text = defaultGuestName
         emptyCart()
@@ -141,7 +138,8 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
             let year = calendar.component(.year, from: orderDate!)
             let month = calendar.component(.month, from: orderDate!)
             let day = calendar.component(.day, from: orderDate!)
-            order.dayid = Int64(year * 10000 + month * 100 + day)
+            let dayid = year * 10000 + month * 100 + day
+            order.dayid = Int64(dayid)
             order.guest = guest
             order.total = NSDecimalNumber(string: totalLabel.text)
             for (indexPath, amount) in amountList {
@@ -159,14 +157,15 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
                     fatalError("Failed to insert new order item")
                 }
             }
+            appDelegate.hasNewOrderPending = true
+            appDelegate.pendingDayOfOrders.insert(dayid)
+            
+            // create new order
+            newOrder()
         } else {
             fatalError("Failed to open 'Order'")
         }
         
-        appDelegate.hasNewOrderPending = true
-        
-        // create new order
-        newOrder()
     }
     
     func presentAlertInvalidation(_ errorMessage: String) {
