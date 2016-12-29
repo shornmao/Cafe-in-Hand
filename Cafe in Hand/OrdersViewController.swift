@@ -13,6 +13,7 @@ class OrdersViewController: UITableViewController {
     
     var sectionNameMonths:[String] = []
     var orderInfoList:[[(day:Int, count:Int, sum:Double)]] = [[]]
+    var revenueMonthly:[Double] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -100,9 +101,11 @@ class OrdersViewController: UITableViewController {
                             sectionNameMonths.append(monthName(monthid: month))
                             currentMonth = month
                             orderInfoList.append([(day, count.intValue, sum.doubleValue)])
+                            revenueMonthly.append(sum.doubleValue)
                             section += 1
                         } else {
                             orderInfoList[section].append((day, count.intValue, sum.doubleValue))
+                            revenueMonthly[section] += sum.doubleValue
                         }
                     }
                 }
@@ -137,9 +140,9 @@ class OrdersViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return sectionNameMonths[section]
+        return "\(sectionNameMonths[section]) Revenue: \(NSLocale.current.currencySymbol!)\(revenueMonthly[section])"
     }
-
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Daily Orders Cell", for: indexPath)
 
