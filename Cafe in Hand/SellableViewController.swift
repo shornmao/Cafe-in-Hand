@@ -157,6 +157,7 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
                     fatalError("Failed to insert new order item")
                 }
             }
+            navigationItem.rightBarButtonItem?.isEnabled = true
             appDelegate.hasNewOrderPending = true
             appDelegate.pendingDayOfOrders.insert(dayid)
             

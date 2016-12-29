@@ -16,6 +16,8 @@
 		09506FC61DEDC7CC00EB1D34 /* NewItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09506FC51DEDC7CC00EB1D34 /* NewItemViewController.swift */; };
 		095689781E12B26000C2FF8A /* DailyReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 095689771E12B26000C2FF8A /* DailyReportViewController.swift */; };
 		0956897A1E12B67A00C2FF8A /* OrdersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 095689791E12B67A00C2FF8A /* OrdersViewController.swift */; };
+		095A42E21E1525C00048FCEC /* OrderInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 095A42E11E1525C00048FCEC /* OrderInfoViewController.swift */; };
+		095A42E41E152C060048FCEC /* OrderInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 095A42E31E152C060048FCEC /* OrderInfoCell.swift */; };
 		0964A3511DD373E60050BF90 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0964A3501DD373E60050BF90 /* AppDelegate.swift */; };
 		0964A3561DD373E60050BF90 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0964A3541DD373E60050BF90 /* Main.storyboard */; };
 		0964A3591DD373E60050BF90 /* Cafe_in_Hand.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0964A3571DD373E60050BF90 /* Cafe_in_Hand.xcdatamodeld */; };
@@ -37,6 +39,8 @@
 		09506FC51DEDC7CC00EB1D34 /* NewItemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewItemViewController.swift; sourceTree = "<group>"; };
 		095689771E12B26000C2FF8A /* DailyReportViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DailyReportViewController.swift; sourceTree = "<group>"; };
 		095689791E12B67A00C2FF8A /* OrdersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrdersViewController.swift; sourceTree = "<group>"; };
+		095A42E11E1525C00048FCEC /* OrderInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderInfoViewController.swift; sourceTree = "<group>"; };
+		095A42E31E152C060048FCEC /* OrderInfoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderInfoCell.swift; sourceTree = "<group>"; };
 		0964A34D1DD373E60050BF90 /* Cafe in Hand.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cafe in Hand.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0964A3501DD373E60050BF90 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0964A3551DD373E60050BF90 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -87,10 +91,12 @@
 				0964A3501DD373E60050BF90 /* AppDelegate.swift */,
 				095689791E12B67A00C2FF8A /* OrdersViewController.swift */,
 				095689771E12B26000C2FF8A /* DailyReportViewController.swift */,
+				095A42E11E1525C00048FCEC /* OrderInfoViewController.swift */,
+				095A42E31E152C060048FCEC /* OrderInfoCell.swift */,
 				09217C131DF858D600273E1D /* ItemInfoViewController.swift */,
-				092074B71DF310FF00B5DDC8 /* OrderItemCell.swift */,
 				09AC9B3B1DEDFC960024C7A5 /* UnsellableTableViewController.swift */,
 				09AC9B391DEDE6460024C7A5 /* SellableViewController.swift */,
+				092074B71DF310FF00B5DDC8 /* OrderItemCell.swift */,
 				09217C171DFEF36700273E1D /* CashPaymentController.swift */,
 				09217C181DFEF36700273E1D /* CashPaymentController.xib */,
 				09506FC51DEDC7CC00EB1D34 /* NewItemViewController.swift */,
@@ -178,10 +184,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				095689781E12B26000C2FF8A /* DailyReportViewController.swift in Sources */,
+				095A42E21E1525C00048FCEC /* OrderInfoViewController.swift in Sources */,
 				0916953E1E097DC8003EC4D2 /* ManagedOrder+CoreDataProperties.swift in Sources */,
 				0964A3591DD373E60050BF90 /* Cafe_in_Hand.xcdatamodeld in Sources */,
 				0964A3511DD373E60050BF90 /* AppDelegate.swift in Sources */,
 				09B3EB381E0EA8BE00516344 /* ManagedOrderItem+CoreDataClass.swift in Sources */,
+				095A42E41E152C060048FCEC /* OrderInfoCell.swift in Sources */,
 				09217C141DF858D600273E1D /* ItemInfoViewController.swift in Sources */,
 				09AC9B3A1DEDE6460024C7A5 /* SellableViewController.swift in Sources */,
 				0916953D1E097DC8003EC4D2 /* ManagedOrder+CoreDataClass.swift in Sources */,

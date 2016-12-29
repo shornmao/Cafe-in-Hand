@@ -23,8 +23,13 @@ class OrdersViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         
-        fetch()
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        if appDelegate.hasNewOrderPending {
+            // fetch request data from persistent store, have to store pending insertion at first
+            appDelegate.saveContext()
+        }
+        // always fetch while loading
+        fetch()
         appDelegate.hasNewOrderPending = false
     }
 

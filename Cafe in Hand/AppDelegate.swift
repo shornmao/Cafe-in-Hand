@@ -18,6 +18,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        // only for debugging, uncomment the following line for release
+        // deleteOrders(persistentContainer.viewContext)
+        
         return true
     }
 
@@ -54,6 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          application to it. This property is optional since there are legitimate
          error conditions that could cause the creation of the store to fail.
         */
+        NSLog("Intializing core data stack")
         let container = NSPersistentContainer(name: "Cafe_in_Hand")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
@@ -70,9 +75,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                  */
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
-
-            // only for debugging, uncomment the following line for release
-            // deleteOrders(persistentContainer.viewContext)
         })
         return container
     }()
