@@ -2,7 +2,7 @@
 //  ManagedOrderItem+CoreDataProperties.swift
 //  Cafe in Hand
 //
-//  Created by Shorn Mo on 2016/12/24.
+//  Created by Shorn Mo on 2016/12/29.
 //  Copyright © 2016年 Shorn Mo. All rights reserved.
 //
 
@@ -25,6 +25,5 @@ extension ManagedOrderItem {
         }
     }
     @NSManaged public var order: ManagedOrder?
-    @NSManaged public var menuitem: NSManagedObject?
 
 }

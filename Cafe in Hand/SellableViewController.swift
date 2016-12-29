@@ -148,7 +148,6 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
                     if let menuItemObj = fetchController?.object(at: indexPath) as? NSManagedObject {
                         orderItem.price = menuItemObj.value(forKey: "price") as? NSDecimalNumber
                         orderItem.name = menuItemObj.value(forKey: "name") as? String
-                        orderItem.menuitem = menuItemObj
                     } else {
                         fatalError("Failed to located menu_item object")
                     }
