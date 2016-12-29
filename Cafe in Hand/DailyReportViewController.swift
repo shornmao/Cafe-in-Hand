@@ -12,7 +12,7 @@ import CoreData
 class DailyReportViewController: UITableViewController {
     
     var dayid: Int?
-    var infoOrders: [(id:String, guest:String, total:Double)] = []
+    var infoOrders: [(id:Date, date:String , guest:String, total:Double)] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,8 +75,7 @@ class DailyReportViewController: UITableViewController {
                 for obj in objs {
                     if let dict = obj as? NSDictionary {
                         if let date = dict["id"] as? Date, let guest = dict["guest"] as? String, let total = dict["total"] as? Double {
-                            let id = DateFormatter.localizedString(from: date, dateStyle: .medium, timeStyle: .medium)
-                            infoOrders.append((id,guest,total))
+                            infoOrders.append((date, DateFormatter.localizedString(from: date, dateStyle: .medium, timeStyle: .medium), guest, total))
                         }
                     }
                 }
@@ -103,7 +102,7 @@ class DailyReportViewController: UITableViewController {
         // Configure the cell with info from infoOrders
         let currency = NSLocale.current.currencySymbol
         let orderInfo = infoOrders[indexPath.row]
-        cell.textLabel?.text = "\(orderInfo.id)"
+        cell.textLabel?.text = orderInfo.date
         cell.detailTextLabel?.text = "\(orderInfo.guest) for \(currency!)\(orderInfo.total)"
 
         return cell
@@ -144,14 +143,18 @@ class DailyReportViewController: UITableViewController {
     }
     */
 
-    /*
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if let orderInfoViewController = segue.destination as? OrderInfoViewController, let cell = sender as? UITableViewCell, let indexPath = tableView.indexPath(for: cell) {
+            let orderInfo = infoOrders[indexPath.row]
+            orderInfoViewController.id = orderInfo.id
+            orderInfoViewController.guest = orderInfo.guest
+            orderInfoViewController.total = orderInfo.total
+        }
     }
-    */
 
 }
