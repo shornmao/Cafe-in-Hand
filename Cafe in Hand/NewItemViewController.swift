@@ -31,11 +31,11 @@ class NewItemViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
     @IBOutlet weak var photoButton: UIButton!
 
     @IBAction func photoTapped(_ sender: AnyObject) {
-        pickImage(sourceType: .photoLibrary)
+        pickImage(sourceType: .photoLibrary, at: iconImageView, by: self, delegate: self)
     }
 
     @IBAction func cameraTapped(_ sender: AnyObject) {
-        pickImage(sourceType: .camera)
+        pickImage(sourceType: .camera, at: iconImageView, by: self, delegate: self)
     }
     
     @IBAction func clearTapped(_ sender: Any) {
@@ -154,72 +154,12 @@ class NewItemViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         }
         
         // Acknowledge for successful new item
-        let alert = UIAlertController(title: NSLocalizedString("Acknowledge", comment: "Title for Info Message Box"), message: NSLocalizedString("New item is input successfully.", comment: "Info message for new item input"), preferredStyle: .alert)
-        let action = UIAlertAction(title: NSLocalizedString("OK", comment: "Title of OK button"), style: .default, handler: nil)
-        alert.addAction(action)
-        present(alert, animated: true, completion: nil)
+        presentAlertInformation(NSLocalizedString("New item is input successfully.", comment: "Info message for new item input"), by: self)
 
         // reset to default value
         reset()
     }
     
-    // clear controls and data to default status
-    func reset() {
-        nameTextField.text = NewItemViewController.defaultItemName
-        categoryTextField.text = NewItemViewController.defaultCategoryName
-        categoryTextField.isEnabled = true
-        priceTextField.text = "\(NewItemViewController.defaultPrice)"
-        iconImageView.image = NewItemViewController.defaultImage
-        onStockSwitch.isOn = NewItemViewController.defaultOnStock
-        categoryPickerView.selectRow(NewItemViewController.defaultCategoryRow, inComponent: 0, animated: true)
-    }
-    
-    // show image picker view
-    func pickImage(sourceType: UIImagePickerControllerSourceType) {
-        let imagePicker = UIImagePickerController()
-        imagePicker.delegate = self
-        imagePicker.mediaTypes[0] = kUTTypeImage as String
-        imagePicker.allowsEditing = true
-        imagePicker.sourceType = sourceType
-        if sourceType != UIImagePickerControllerSourceType.camera && UIDevice.current.model.contains("iPad") {
-            imagePicker.modalPresentationStyle = UIModalPresentationStyle.popover
-        }
-        present(imagePicker, animated: true, completion: nil)
-        if imagePicker.modalPresentationStyle == UIModalPresentationStyle.popover, let presentationController = imagePicker.popoverPresentationController {
-            presentationController.permittedArrowDirections = [.left, .right]
-            presentationController.sourceView = view
-            presentationController.sourceRect = photoButton.frame
-        }
-    }
-    
-    // locate category name in row of picker view
-    func categoryAtRow(_ fetchController: NSFetchedResultsController<NSFetchRequestResult>?, name: String) -> Int? {
-        if let rows = fetchController?.sections?[0].numberOfObjects {
-            for row in 0..<rows {
-                if let obj = fetchController?.object(at: IndexPath(row: row, section: 0)) as? NSManagedObject {
-                    if obj.value(forKey: "name") as? String == name {
-                        return row
-                    }
-                }
-            }
-        }
-        return nil
-    }
-    
-    // locate category object
-    func categoryAtObject(_ fetchController: NSFetchedResultsController<NSFetchRequestResult>?, name: String) -> NSManagedObject? {
-        if let rows = fetchController?.sections?[0].numberOfObjects {
-            for row in 0..<rows {
-                if let obj = fetchController?.object(at: IndexPath(row: row, section: 0)) as? NSManagedObject {
-                    if obj.value(forKey: "name") as? String == name {
-                        return obj
-                    }
-                }
-            }
-        }
-        return nil
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -249,20 +189,55 @@ class NewItemViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    // MARK: - Tools
+    
+    // clear controls and data to default status
+    func reset() {
+        nameTextField.text = NewItemViewController.defaultItemName
+        categoryTextField.text = NewItemViewController.defaultCategoryName
+        categoryTextField.isEnabled = true
+        priceTextField.text = "\(NewItemViewController.defaultPrice)"
+        iconImageView.image = NewItemViewController.defaultImage
+        onStockSwitch.isOn = NewItemViewController.defaultOnStock
+        categoryPickerView.selectRow(NewItemViewController.defaultCategoryRow, inComponent: 0, animated: true)
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
+    // locate category name in row of picker view
+    func categoryAtRow(_ fetchController: NSFetchedResultsController<NSFetchRequestResult>?, name: String) -> Int? {
+        if let rows = fetchController?.sections?[0].numberOfObjects {
+            for row in 0..<rows {
+                if let obj = fetchController?.object(at: IndexPath(row: row, section: 0)) as? NSManagedObject {
+                    if obj.value(forKey: "name") as? String == name {
+                        return row
+                    }
+                }
+            }
+        }
+        return nil
     }
     
-    // MARK: Adopt to delegate for fetched results controller
+    // locate category object
+    func categoryAtObject(_ fetchController: NSFetchedResultsController<NSFetchRequestResult>?, name: String) -> NSManagedObject? {
+        if let rows = fetchController?.sections?[0].numberOfObjects {
+            for row in 0..<rows {
+                if let obj = fetchController?.object(at: IndexPath(row: row, section: 0)) as? NSManagedObject {
+                    if obj.value(forKey: "name") as? String == name {
+                        return obj
+                    }
+                }
+            }
+        }
+        return nil
+    }
+    
+    // MARK: - Fetched results controller delegate
+    
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         categoryPickerView.reloadComponent(0)
     }
     
-    // MARK: Adopt to data source and delegate for picker view
+    // MARK: - UIPickerView data source
+    
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
@@ -274,6 +249,8 @@ class NewItemViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         }
         return 1
     }
+    
+    // MARK: - UIPickerView delegate
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         if row == NewItemViewController.defaultCategoryRow {
@@ -291,11 +268,12 @@ class NewItemViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
             categoryTextField.isEnabled = false
             if let obj = categoriesFetchController?.object(at: IndexPath(row: row - 1, section: 0)) as? NSManagedObject, let name = obj.value(forKey: "name") as? String {
                 categoryTextField.text = name
-            }            
+            }
         }
     }
     
-    // MARK: Adopt to delegate for UIImagePickerController
+    // MARK:  - UIImagePickerController delegate
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         iconImageView.image = info[UIImagePickerControllerEditedImage] as? UIImage
         picker.dismiss(animated: true, completion: nil)

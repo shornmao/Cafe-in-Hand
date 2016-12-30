@@ -29,11 +29,11 @@ class ItemInfoViewController: UIViewController, UIImagePickerControllerDelegate,
     }
     
     @IBAction func photoTapped(_ sender: AnyObject) {
-        pickImage(sourceType: .photoLibrary)
+        pickImage(sourceType: .photoLibrary, at: imageView, by: self, delegate: self)
     }
 
     @IBAction func cameraTapped(_ sender: AnyObject) {
-        pickImage(sourceType: .camera)
+        pickImage(sourceType: .camera, at: imageView, by: self, delegate: self)
     }
 
     @IBAction func clearTapped(_ sender: Any) {
@@ -41,29 +41,11 @@ class ItemInfoViewController: UIViewController, UIImagePickerControllerDelegate,
         objectMenuItem?.setValue(nil, forKey: "icon")
     }
 
-    func pickImage(sourceType: UIImagePickerControllerSourceType) {
-        let imagePicker = UIImagePickerController()
-        imagePicker.delegate = self
-        imagePicker.mediaTypes[0] = kUTTypeImage as String
-        imagePicker.allowsEditing = true
-        imagePicker.sourceType = sourceType
-        if sourceType != UIImagePickerControllerSourceType.camera && UIDevice.current.model.contains("iPad") {
-            imagePicker.modalPresentationStyle = UIModalPresentationStyle.popover
-        }
-        present(imagePicker, animated: true, completion: nil)
-        if imagePicker.modalPresentationStyle == UIModalPresentationStyle.popover, let presentationController = imagePicker.popoverPresentationController {
-            presentationController.permittedArrowDirections = [.left, .right]
-            presentationController.sourceView = view
-            presentationController.sourceRect = imageView.frame
-        }
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         navigationItem.title = objectMenuItem?.value(forKey: "name") as? String
-        // categoryLabel.text = categoryName
         categoryLabel.text = objectMenuItem?.value(forKeyPath: "category.name") as? String
         priceField.text = "\(objectMenuItem?.value(forKey: "price") as! Double)"
         if let iconData = objectMenuItem?.value(forKey: "icon") as? Data {
@@ -78,7 +60,8 @@ class ItemInfoViewController: UIViewController, UIImagePickerControllerDelegate,
         // Dispose of any resources that can be recreated.
     }
     
-    // MARK: Adopt to delegate for UIImagePickerController
+    // MARK: - UIImagePickerController delegate
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         imageView.image = info[UIImagePickerControllerEditedImage] as? UIImage
         picker.dismiss(animated: true, completion: nil)
@@ -95,7 +78,8 @@ class ItemInfoViewController: UIViewController, UIImagePickerControllerDelegate,
         picker.dismiss(animated: true, completion: nil)
     }
     
-    // MARK - Tool func
+    // MARK: - Tools
+    
     func sell() {
         objectMenuItem?.setValue(true, forKey: "on_stock")
         let _ = navigationController?.popViewController(animated: true)

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MobileCoreServices
 
 func presentAlertInvalidation(_ errorMessage: String, by presenter: UIViewController) {
     let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Title for Error Message Box"), message: errorMessage, preferredStyle: .alert)
@@ -35,3 +36,21 @@ func presentAlertConfirmation(_ questionMessage: String, sender: UIButton, confi
     }
     presenter.present(alert, animated: true, completion: nil)
 }
+
+func pickImage(sourceType: UIImagePickerControllerSourceType, at view: UIView , by presenter: UIViewController, delegate: UIImagePickerControllerDelegate & UINavigationControllerDelegate) {
+    let imagePicker = UIImagePickerController()
+    imagePicker.delegate = delegate
+    imagePicker.mediaTypes[0] = kUTTypeImage as String
+    imagePicker.allowsEditing = true
+    imagePicker.sourceType = sourceType
+    if sourceType != UIImagePickerControllerSourceType.camera && UIDevice.current.model.contains("iPad") {
+        imagePicker.modalPresentationStyle = UIModalPresentationStyle.popover
+    }
+    presenter.present(imagePicker, animated: true, completion: nil)
+    if imagePicker.modalPresentationStyle == UIModalPresentationStyle.popover, let presentationController = imagePicker.popoverPresentationController {
+        presentationController.permittedArrowDirections = [.left, .right]
+        presentationController.sourceView = presenter.view
+        presentationController.sourceRect = view.frame
+    }
+}
+
