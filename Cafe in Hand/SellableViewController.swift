@@ -77,8 +77,8 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
         newOrder()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         if let context = fetchController?.managedObjectContext {
             navigationItem.rightBarButtonItem?.isEnabled = context.hasChanges
         }
@@ -89,7 +89,7 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
         // Dispose of any resources that can be recreated.
     }
     
-    // MARK: - tool functions
+    // MARK: - Tools
     
     func saveTapped() {
         if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
@@ -183,6 +183,7 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     // MARK: - Sellable item cell delegate
+    
     func totalChanged(sender: SellableItemCell) {
         if let indexPath = tableView.indexPath(for: sender) {
             let amount = sender.amount
@@ -211,7 +212,6 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
     // MARK: - Feched results controller delegate
     
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        navigationItem.rightBarButtonItem?.isEnabled = true
         tableView.beginUpdates()
     }
     
@@ -224,7 +224,6 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
         default:
             break
         }
-        navigationItem.rightBarButtonItem?.isEnabled = true
     }
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
@@ -247,11 +246,11 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
 //        default:
 //            break
         }
-        navigationItem.rightBarButtonItem?.isEnabled = true
     }
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.endUpdates()
+        navigationItem.rightBarButtonItem?.isEnabled = true
     }
 
     // MARK: - Table view data source
@@ -318,10 +317,7 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
             if let obj = fetchController?.object(at: indexPath) as? NSManagedObject {
                 // delete object from context
                 obj.setValue(false, forKey: "on_stock")
-                // fetched results controller delegate will received notification to perform table view update
-                // storage could not be updated till context is saved
             }
-            //            tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }

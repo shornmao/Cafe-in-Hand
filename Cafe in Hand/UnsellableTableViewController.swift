@@ -38,15 +38,8 @@ class UnsellableTableViewController: UITableViewController, NSFetchedResultsCont
         }
     }
 
-    func saveTapped() {
-        if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
-            appDelegate.saveContext()
-        }
-        navigationItem.rightBarButtonItem?.isEnabled = false
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         if let context = fetchController?.managedObjectContext {
             navigationItem.rightBarButtonItem?.isEnabled = context.hasChanges
         }
@@ -57,9 +50,18 @@ class UnsellableTableViewController: UITableViewController, NSFetchedResultsCont
         // Dispose of any resources that can be recreated.
     }
     
+    // MARK: - Tools
+    
+    func saveTapped() {
+        if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
+            appDelegate.saveContext()
+        }
+        navigationItem.rightBarButtonItem?.isEnabled = false
+    }
+    
     // MARK: - Fetched result delegate
+    
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        navigationItem.rightBarButtonItem?.isEnabled = true
         tableView.beginUpdates()
     }
     
@@ -80,7 +82,6 @@ class UnsellableTableViewController: UITableViewController, NSFetchedResultsCont
             tableView.insertRows(at: [newIndexPath!], with: .automatic)
         case .delete:
             tableView.deleteRows(at: [indexPath!], with: .automatic)
-            navigationItem.rightBarButtonItem?.isEnabled = true
         case .update:
             if newIndexPath == nil {
                 tableView.reloadRows(at: [indexPath!], with: .automatic)
@@ -88,7 +89,6 @@ class UnsellableTableViewController: UITableViewController, NSFetchedResultsCont
                 tableView.deleteRows(at: [indexPath!], with: .automatic)
                 tableView.insertRows(at: [newIndexPath!], with: .automatic)
             }
-            navigationItem.rightBarButtonItem?.isEnabled = true
         case .move:
             tableView.deleteRows(at: [indexPath!], with: .automatic)
             tableView.insertRows(at: [newIndexPath!], with: .automatic)
@@ -100,6 +100,7 @@ class UnsellableTableViewController: UITableViewController, NSFetchedResultsCont
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.endUpdates()
+        navigationItem.rightBarButtonItem?.isEnabled = true
     }
 
     // MARK: - Table view data source
@@ -164,9 +165,7 @@ class UnsellableTableViewController: UITableViewController, NSFetchedResultsCont
                 // delete object from context
                 fetchController?.managedObjectContext.delete(obj)
                 // fetched results controller delegate will received notification to perform table view update
-                // storage could not be updated till context is saved
             }
-//            tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
