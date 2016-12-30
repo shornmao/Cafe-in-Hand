@@ -8,13 +8,13 @@
 
 import UIKit
 
-protocol OrderItemCellDelegate {
-    func totalChanged(sender: OrderItemCell)
+protocol SellableItemCellDelegate {
+    func totalChanged(sender: SellableItemCell)
 }
 
-class OrderItemCell: UITableViewCell {
+class SellableItemCell: UITableViewCell {
 
-    var delegate: OrderItemCellDelegate?
+    var delegate: SellableItemCellDelegate?
     var amount: Int {
         get {
             return Int(amountStepper.value)

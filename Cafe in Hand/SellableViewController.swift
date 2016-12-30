@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class SellableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate, OrderItemCellDelegate, CashPaymentControllerDelegate {
+class SellableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate, SellableItemCellDelegate, CashPaymentControllerDelegate {
     
     var amountList : [IndexPath : Int] = [:]
     var fetchController : NSFetchedResultsController<NSFetchRequestResult>?
@@ -109,7 +109,7 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
         totalLabel.text = "\(defaultTotal)"
         amountList.removeAll()
         for cell in tableView.visibleCells {
-            (cell as! OrderItemCell).amount = 0
+            (cell as! SellableItemCell).amount = 0
         }
     }
     
@@ -211,7 +211,7 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     // MARK: - Order item cell delegate
-    func totalChanged(sender: OrderItemCell) {
+    func totalChanged(sender: SellableItemCell) {
         if let indexPath = tableView.indexPath(for: sender) {
             let amount = sender.amount
             if amount != 0 {
@@ -252,16 +252,15 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
         default:
             break
         }
+        navigationItem.rightBarButtonItem?.isEnabled = true
     }
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         switch type {
         case .insert:
             tableView.insertRows(at: [newIndexPath!], with: .automatic)
-            navigationItem.rightBarButtonItem?.isEnabled = true
         case .delete:
             tableView.deleteRows(at: [indexPath!], with: .automatic)
-            navigationItem.rightBarButtonItem?.isEnabled = true
         case .update:
             if newIndexPath == nil {
                 tableView.reloadRows(at: [indexPath!], with: .automatic)
@@ -269,7 +268,6 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
                 tableView.deleteRows(at: [indexPath!], with: .automatic)
                 tableView.insertRows(at: [newIndexPath!], with: .automatic)
             }
-            navigationItem.rightBarButtonItem?.isEnabled = true
         case .move:
             tableView.deleteRows(at: [indexPath!], with: .automatic)
             tableView.insertRows(at: [newIndexPath!], with: .automatic)
@@ -277,6 +275,7 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
 //        default:
 //            break
         }
+        navigationItem.rightBarButtonItem?.isEnabled = true
     }
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
@@ -301,7 +300,7 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Order Item Cell", for: indexPath) as! OrderItemCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Sellable Item Cell", for: indexPath) as! SellableItemCell
         
         // Configure the cell with amount from amount list
         if let amount = amountList[indexPath] {

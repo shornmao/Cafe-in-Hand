@@ -61,9 +61,9 @@ class OrderInfoViewController: UIViewController, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Order Info Cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Order Item Cell", for: indexPath)
         
-        if let orderInfoCell = cell as? OrderInfoCell {
+        if let orderInfoCell = cell as? OrderItemInfoCell {
             let orderItem = orderList[indexPath.row]
             if let name = orderItem.name {
                 orderInfoCell.nameLabel.text = name
