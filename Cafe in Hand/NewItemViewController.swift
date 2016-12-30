@@ -76,11 +76,11 @@ class NewItemViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         if categoryTextField.isEnabled  {
             // validate category name
             guard !categoryName.isEmpty else {
-                presentAlertInvalidation(NSLocalizedString("Do not use blank category name.", comment: "Error message for input blank category name"))
+                presentAlertInvalidation(NSLocalizedString("Do not use blank category name.", comment: "Error message for input blank category name"), by: self)
                 return
             }
             guard categoryName != NewItemViewController.defaultCategoryName else {
-                presentAlertInvalidation(NSLocalizedString("Do not use placeholder as category name.", comment: "Error message for input placeholder category name"))
+                presentAlertInvalidation(NSLocalizedString("Do not use placeholder as category name.", comment: "Error message for input placeholder category name"), by: self)
                 return
             }
         }
@@ -88,11 +88,11 @@ class NewItemViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         // validate item name
         let itemName = nameTextField.text!
         guard !itemName.isEmpty else {
-            presentAlertInvalidation(NSLocalizedString("Do not use blank item name.", comment: "Error message for input blank item name"))
+            presentAlertInvalidation(NSLocalizedString("Do not use blank item name.", comment: "Error message for input blank item name"), by: self)
             return
         }
         guard itemName != NewItemViewController.defaultItemName else {
-            presentAlertInvalidation(NSLocalizedString("Do not use placeholder as item name.", comment: "Error message for input placeholder item name"))
+            presentAlertInvalidation(NSLocalizedString("Do not use placeholder as item name.", comment: "Error message for input placeholder item name"), by: self)
             return
         }
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "MenuItem")
@@ -100,7 +100,7 @@ class NewItemViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         do {
             let objList = try context.fetch(request)
             guard objList.isEmpty else {
-                presentAlertInvalidation(NSLocalizedString("Item name exists already.", comment: "Error message for duplicated item"))
+                presentAlertInvalidation(NSLocalizedString("Item name exists already.", comment: "Error message for duplicated item"), by: self)
                 return
             }
         } catch {
@@ -109,7 +109,7 @@ class NewItemViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         
         // validate item price
         guard let price = Double(priceTextField.text!) else {
-            presentAlertInvalidation(NSLocalizedString("Use decimal like '1.05' for price input.", comment: "Error message for invalidate price format"))
+            presentAlertInvalidation(NSLocalizedString("Use decimal like '1.05' for price input.", comment: "Error message for invalidate price format"), by: self)
             return
         }
 
@@ -126,7 +126,7 @@ class NewItemViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
             do {
                 let objsCategory = try context.fetch(request)
                 guard !objsCategory.isEmpty else {
-                    presentAlertInvalidation(NSLocalizedString("Category name dosen't exist.", comment: "Error message for absent category name"))
+                    presentAlertInvalidation(NSLocalizedString("Category name dosen't exist.", comment: "Error message for absent category name"), by: self)
                     return
                 }
                 categoryObj = objsCategory[0] as? NSManagedObject
@@ -152,9 +152,6 @@ class NewItemViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         } else {
             fatalError("Failed to access <MenuItem> in data model")
         }
-        
-        // MARK - Debug Purpose
-//        appDelegate.saveContext()
         
         // Acknowledge for successful new item
         let alert = UIAlertController(title: NSLocalizedString("Acknowledge", comment: "Title for Info Message Box"), message: NSLocalizedString("New item is input successfully.", comment: "Info message for new item input"), preferredStyle: .alert)
@@ -223,14 +220,6 @@ class NewItemViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         return nil
     }
 
-    // alert for invalidated user input
-    func presentAlertInvalidation(_ errorMessage: String) {
-        let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Title for Error Message Box"), message: errorMessage, preferredStyle: .alert)
-        let action = UIAlertAction(title: NSLocalizedString("OK", comment: "Title of OK button"), style: .default, handler: nil)
-        alert.addAction(action)
-        present(alert, animated: true, completion: nil)
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 

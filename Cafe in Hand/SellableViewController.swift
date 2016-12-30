@@ -30,21 +30,21 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
     }
 
     @IBAction func emptyTapped(_ sender: AnyObject) {
-        presentAlertConfirmation(NSLocalizedString("Amount for all item will be reset to zero.", comment: "Empty shopping cart warning message"), sender: sender as! UIButton, confirmedAction: emptyCart)
+        presentAlertConfirmation(NSLocalizedString("Amount for all item will be reset to zero.", comment: "Empty shopping cart warning message"), sender: sender as! UIButton, confirmedAction: emptyCart, by: self)
     }
 
     @IBAction func discardTapped(_ sender: AnyObject) {
-        presentAlertConfirmation(NSLocalizedString("Current order will be discarded and a new order will be created.", comment: "Discard and new order warning message"), sender: sender as! UIButton, confirmedAction: newOrder)
+        presentAlertConfirmation(NSLocalizedString("Current order will be discarded and a new order will be created.", comment: "Discard and new order warning message"), sender: sender as! UIButton, confirmedAction: newOrder, by: self)
     }
 
     @IBAction func payTapped(_ sender: AnyObject) {
         // check amount list, if no element, it dosen't make sense
         guard !amountList.isEmpty else {
-            presentAlertInvalidation(NSLocalizedString("The order make no sense if no item is selected.", comment: "Error message for empty order"))
+            presentAlertInvalidation(NSLocalizedString("The order make no sense if no item is selected.", comment: "Error message for empty order"), by: self)
             return
         }
         
-        presentAlertConfirmation(NSLocalizedString("Current order will be payed and closed, and also a new order will be created.", comment: "Pay order warning message"), sender: sender as! UIButton, confirmedAction: payOrder)
+        presentAlertConfirmation(NSLocalizedString("Current order will be payed and closed, and also a new order will be created.", comment: "Pay order warning message"), sender: sender as! UIButton, confirmedAction: payOrder, by: self)
     }
     
     override func viewDidLoad() {
@@ -167,35 +167,7 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
         }
         
     }
-    
-    func presentAlertInvalidation(_ errorMessage: String) {
-        let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Title for Error Message Box"), message: errorMessage, preferredStyle: .alert)
-        let action = UIAlertAction(title: NSLocalizedString("OK", comment: "Title of OK button"), style: .default, handler: nil)
-        alert.addAction(action)
-        present(alert, animated: true, completion: nil)
-    }
-    
-    func presentAlertInformation(_ infoMessage: String) {
-        let alert = UIAlertController(title: NSLocalizedString("Acknowledge", comment: "Title for Info Message Box"), message: infoMessage, preferredStyle: .alert)
-        let action = UIAlertAction(title: NSLocalizedString("OK", comment: "Title of OK button"), style: .default, handler: nil)
-        alert.addAction(action)
-        present(alert, animated: true, completion: nil)
-    }
-
-    func presentAlertConfirmation(_ questionMessage: String, sender: UIButton, confirmedAction: ((UIAlertAction)->Void)?) {
-        let alert = UIAlertController(title: NSLocalizedString("Are you sure?", comment: "Title for Confirm Message Box"), message: questionMessage, preferredStyle: .actionSheet)
-        let actionYes = UIAlertAction(title: NSLocalizedString("Yes", comment: "Title of Yes button"), style: .destructive, handler: confirmedAction)
-        let actionNo = UIAlertAction(title: NSLocalizedString("No", comment: "Title of No button"), style: .cancel, handler: nil)
-        alert.addAction(actionYes)
-        alert.addAction(actionNo)
         
-        if let ppc = alert.popoverPresentationController {
-            ppc.sourceView = sender
-            ppc.sourceRect = sender.frame
-        }
-        present(alert, animated: true, completion: nil)
-    }
-    
     func calculateTotal() {
         var total = 0.0
         for (indexPath, amount) in amountList {
@@ -210,7 +182,7 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
         totalLabel.text = "\(total)"
     }
     
-    // MARK: - Order item cell delegate
+    // MARK: - Sellable item cell delegate
     func totalChanged(sender: SellableItemCell) {
         if let indexPath = tableView.indexPath(for: sender) {
             let amount = sender.amount
@@ -231,7 +203,7 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
         } else {
             controller.dismiss(animated: true, completion: {
                 self.generateOrder()
-                self.presentAlertInformation(NSLocalizedString("Order is payed", comment: "Information Message for Order Payment"))
+                presentAlertInformation(NSLocalizedString("Order is payed", comment: "Information Message for Order Payment"), by: self)
             })
         }
     }
@@ -283,6 +255,7 @@ class SellableViewController: UIViewController, UITableViewDelegate, UITableView
     }
 
     // MARK: - Table view data source
+
     func numberOfSections(in tableView: UITableView) -> Int {
         // calculate sections count from fetched result controller
         return (fetchController?.sections?.count)!
