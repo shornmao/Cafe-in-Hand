@@ -760,7 +760,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Enter"/>
                                 <connections>
-                                    <action selector="saveTapped:" destination="Sb7-Mn-Hm3" eventType="touchUpInside" id="BW5-He-YyR"/>
+                                    <action selector="enterTapped:" destination="Sb7-Mn-Hm3" eventType="touchUpInside" id="QcW-6t-KKc"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2jJ-fA-RRm">

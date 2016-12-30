@@ -19,7 +19,7 @@ class NewItemViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
     static let defaultOnStock = true
     static let defaultCategoryRow = 0
 
-    var categoriesFetchController : NSFetchedResultsController<NSFetchRequestResult>?
+    var fetcher : NSFetchedResultsController<NSFetchRequestResult>?
 
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var categoryTextField: UITextField!
@@ -46,7 +46,7 @@ class NewItemViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         guard categoryTextField == sender as? UITextField else {
             return
         }
-        if let row = categoryAtRow(categoriesFetchController, name: categoryTextField.text!) {
+        if let row = categoryAtRow(fetcher, name: categoryTextField.text!) {
             categoryPickerView.selectRow(row + 1, inComponent: 0, animated: true)
             categoryTextField.isEnabled = false
         }
@@ -68,7 +68,7 @@ class NewItemViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         priceTextField.resignFirstResponder()
     }
 
-    @IBAction func saveTapped(_ sender: AnyObject) {
+    @IBAction func enterTapped(_ sender: AnyObject) {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
         let categoryName = categoryTextField.text!
@@ -113,27 +113,7 @@ class NewItemViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
             return
         }
 
-        var categoryObj : NSManagedObject?
-        if categoryTextField.isEnabled {
-            // insert new category
-            categoryObj = NSEntityDescription.insertNewObject(forEntityName: "Category", into: context)
-            categoryObj!.setValue(categoryName, forKey: "name")
-        } else {
-            // take back category regardless new or existing
-            // MARK - fetched results controller hasn't hanlded changing notification, only can fetch again
-            let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Category")
-            request.predicate = NSPredicate(format: "%K == %@", "name", categoryName)
-            do {
-                let objsCategory = try context.fetch(request)
-                guard !objsCategory.isEmpty else {
-                    presentAlertInvalidation(NSLocalizedString("Category name dosen't exist.", comment: "Error message for absent category name"), by: self)
-                    return
-                }
-                categoryObj = objsCategory[0] as? NSManagedObject
-            } catch {
-                fatalError("Failed to fetch <Category> in data modal")
-            }
-        }
+        let categoryObj = categoryTextField.isEnabled ? newCategory(context, name: categoryName) : selectedCategory()
         
         // insert new item
         if let entityDescription = NSEntityDescription.entity(forEntityName: "MenuItem", in: context) {
@@ -148,7 +128,7 @@ class NewItemViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
                     newObj.setValue(data, forKey: "icon")
                 }
             }
-            newObj.setValue(categoryObj!, forKey: "category")
+            newObj.setValue(categoryObj, forKey: "category")
         } else {
             fatalError("Failed to access <MenuItem> in data model")
         }
@@ -173,10 +153,10 @@ class NewItemViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         let sorter = NSSortDescriptor(key: "name", ascending: true)
         request.sortDescriptors = [sorter]
         let context = appDelegate.persistentContainer.viewContext
-        categoriesFetchController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-        categoriesFetchController?.delegate = self
+        fetcher = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+        fetcher?.delegate = self
         do {
-            try categoriesFetchController?.performFetch()
+            try fetcher?.performFetch()
         } catch {
             fatalError("Failed to fetch and monitor all from Category")
         }
@@ -216,18 +196,22 @@ class NewItemViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         return nil
     }
     
-    // locate category object
-    func categoryAtObject(_ fetchController: NSFetchedResultsController<NSFetchRequestResult>?, name: String) -> NSManagedObject? {
-        if let rows = fetchController?.sections?[0].numberOfObjects {
-            for row in 0..<rows {
-                if let obj = fetchController?.object(at: IndexPath(row: row, section: 0)) as? NSManagedObject {
-                    if obj.value(forKey: "name") as? String == name {
-                        return obj
-                    }
-                }
-            }
+    func newCategory(_ context: NSManagedObjectContext, name categoryName: String) -> NSManagedObject {
+        let newCategory = NSEntityDescription.insertNewObject(forEntityName: "Category", into: context)
+        newCategory.setValue(categoryName, forKey: "name")
+        return newCategory
+    }
+    
+    func selectedCategory() -> NSManagedObject {
+        let row = categoryPickerView.selectedRow(inComponent: 0)
+        guard row > 0 else {
+            fatalError("Failed to locate selected existing category")
         }
-        return nil
+        if let existingCategory = fetcher?.object(at: IndexPath(row: row - 1, section: 0)) as? NSManagedObject {
+            return existingCategory
+        } else {
+            fatalError("Failed to get selected existing category")
+        }
     }
     
     // MARK: - Fetched results controller delegate
@@ -244,7 +228,7 @@ class NewItemViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         // at least 1 row exists in the first named <User Defined> not from data base
-        if let sectionInfo = categoriesFetchController?.sections?[0] {
+        if let sectionInfo = fetcher?.sections?[0] {
             return sectionInfo.numberOfObjects + 1
         }
         return 1
@@ -256,7 +240,7 @@ class NewItemViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
         if row == NewItemViewController.defaultCategoryRow {
             return NewItemViewController.defaultCategoryName
         }
-        let obj = categoriesFetchController?.object(at: IndexPath(row: row - 1, section: 0)) as? NSManagedObject
+        let obj = fetcher?.object(at: IndexPath(row: row - 1, section: 0)) as? NSManagedObject
         return obj?.value(forKey: "name") as? String
     }
     
@@ -266,7 +250,7 @@ class NewItemViewController: UIViewController, UIPickerViewDelegate, UIPickerVie
             categoryTextField.text = NewItemViewController.defaultCategoryName
         } else {
             categoryTextField.isEnabled = false
-            if let obj = categoriesFetchController?.object(at: IndexPath(row: row - 1, section: 0)) as? NSManagedObject, let name = obj.value(forKey: "name") as? String {
+            if let obj = fetcher?.object(at: IndexPath(row: row - 1, section: 0)) as? NSManagedObject, let name = obj.value(forKey: "name") as? String {
                 categoryTextField.text = name
             }
         }
