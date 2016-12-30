@@ -12,6 +12,7 @@
 		0917BC8E1E16A17800851BD3 /* SellableItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0917BC8D1E16A17800851BD3 /* SellableItemCell.swift */; };
 		0917BC921E16A49D00851BD3 /* OrderItemInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0917BC911E16A49D00851BD3 /* OrderItemInfoCell.swift */; };
 		0917BC941E16AAAA00851BD3 /* UtilityRoutines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0917BC931E16AAAA00851BD3 /* UtilityRoutines.swift */; };
+		0917BC961E16B3AC00851BD3 /* UnsellableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0917BC951E16B3AC00851BD3 /* UnsellableViewController.swift */; };
 		09217C141DF858D600273E1D /* ItemInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09217C131DF858D600273E1D /* ItemInfoViewController.swift */; };
 		09217C191DFEF36700273E1D /* CashPaymentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09217C171DFEF36700273E1D /* CashPaymentController.swift */; };
 		09217C1A1DFEF36700273E1D /* CashPaymentController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 09217C181DFEF36700273E1D /* CashPaymentController.xib */; };
@@ -25,7 +26,6 @@
 		0964A35B1DD373E60050BF90 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0964A35A1DD373E60050BF90 /* Assets.xcassets */; };
 		0964A35E1DD373E60050BF90 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0964A35C1DD373E60050BF90 /* LaunchScreen.storyboard */; };
 		09AC9B3A1DEDE6460024C7A5 /* SellableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AC9B391DEDE6460024C7A5 /* SellableViewController.swift */; };
-		09AC9B3C1DEDFC960024C7A5 /* UnsellableTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AC9B3B1DEDFC960024C7A5 /* UnsellableTableViewController.swift */; };
 		09B3EB381E0EA8BE00516344 /* ManagedOrderItem+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09B3EB361E0EA8BE00516344 /* ManagedOrderItem+CoreDataClass.swift */; };
 		09B3EB391E0EA8BE00516344 /* ManagedOrderItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09B3EB371E0EA8BE00516344 /* ManagedOrderItem+CoreDataProperties.swift */; };
 /* End PBXBuildFile section */
@@ -36,6 +36,7 @@
 		0917BC8D1E16A17800851BD3 /* SellableItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellableItemCell.swift; sourceTree = "<group>"; };
 		0917BC911E16A49D00851BD3 /* OrderItemInfoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderItemInfoCell.swift; sourceTree = "<group>"; };
 		0917BC931E16AAAA00851BD3 /* UtilityRoutines.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UtilityRoutines.swift; sourceTree = "<group>"; };
+		0917BC951E16B3AC00851BD3 /* UnsellableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnsellableViewController.swift; sourceTree = "<group>"; };
 		09217C131DF858D600273E1D /* ItemInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemInfoViewController.swift; sourceTree = "<group>"; };
 		09217C171DFEF36700273E1D /* CashPaymentController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CashPaymentController.swift; sourceTree = "<group>"; };
 		09217C181DFEF36700273E1D /* CashPaymentController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CashPaymentController.xib; sourceTree = "<group>"; };
@@ -51,7 +52,6 @@
 		0964A35D1DD373E60050BF90 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0964A35F1DD373E60050BF90 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		09AC9B391DEDE6460024C7A5 /* SellableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellableViewController.swift; sourceTree = "<group>"; };
-		09AC9B3B1DEDFC960024C7A5 /* UnsellableTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnsellableTableViewController.swift; sourceTree = "<group>"; };
 		09B3EB361E0EA8BE00516344 /* ManagedOrderItem+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ManagedOrderItem+CoreDataClass.swift"; sourceTree = "<group>"; };
 		09B3EB371E0EA8BE00516344 /* ManagedOrderItem+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ManagedOrderItem+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -93,7 +93,7 @@
 				0917BC931E16AAAA00851BD3 /* UtilityRoutines.swift */,
 				0964A3501DD373E60050BF90 /* AppDelegate.swift */,
 				09AC9B391DEDE6460024C7A5 /* SellableViewController.swift */,
-				09AC9B3B1DEDFC960024C7A5 /* UnsellableTableViewController.swift */,
+				0917BC951E16B3AC00851BD3 /* UnsellableViewController.swift */,
 				09217C131DF858D600273E1D /* ItemInfoViewController.swift */,
 				09506FC51DEDC7CC00EB1D34 /* NewItemViewController.swift */,
 				095689791E12B67A00C2FF8A /* OrdersViewController.swift */,
@@ -198,7 +198,7 @@
 				09AC9B3A1DEDE6460024C7A5 /* SellableViewController.swift in Sources */,
 				0916953D1E097DC8003EC4D2 /* ManagedOrder+CoreDataClass.swift in Sources */,
 				0956897A1E12B67A00C2FF8A /* OrdersViewController.swift in Sources */,
-				09AC9B3C1DEDFC960024C7A5 /* UnsellableTableViewController.swift in Sources */,
+				0917BC961E16B3AC00851BD3 /* UnsellableViewController.swift in Sources */,
 				09506FC61DEDC7CC00EB1D34 /* NewItemViewController.swift in Sources */,
 				09B3EB391E0EA8BE00516344 /* ManagedOrderItem+CoreDataProperties.swift in Sources */,
 				09217C191DFEF36700273E1D /* CashPaymentController.swift in Sources */,

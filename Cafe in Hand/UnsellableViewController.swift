@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class UnsellableTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
+class UnsellableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
     
     var fetchController : NSFetchedResultsController<NSFetchRequestResult>?
     
@@ -19,7 +19,7 @@ class UnsellableTableViewController: UITableViewController, NSFetchedResultsCont
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(UnsellableTableViewController.saveTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(UnsellableViewController.saveTapped))
         navigationItem.rightBarButtonItem?.isEnabled = false
         
         // use fetched results controller
