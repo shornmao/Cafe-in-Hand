@@ -1,0 +1,225 @@
+/* Class = "UILabel"; text = "0.00USD"; ObjectID = "0s1-RF-qff"; */
+"0s1-RF-qff.text" = "0.00CNY";
+
+/* Class = "UILabel"; text = "Subtitle"; ObjectID = "1B4-b1-cpX"; */
+"1B4-b1-cpX.text" = "子标题";
+
+/* Class = "UINavigationItem"; title = "Orders"; ObjectID = "1kM-en-w5O"; */
+"1kM-en-w5O.title" = "所有订单";
+
+/* Class = "UILabel"; text = "Price"; ObjectID = "2A7-ic-bl0"; */
+"2A7-ic-bl0.text" = "单价";
+
+/* Class = "UIButton"; normalTitle = "Reset"; ObjectID = "2jJ-fA-RRm"; */
+"2jJ-fA-RRm.normalTitle" = "重置";
+
+/* Class = "UITabBarItem"; title = "New Item"; ObjectID = "3d6-7a-Kha"; */
+"3d6-7a-Kha.title" = "新单品";
+
+/* Class = "UILabel"; text = "Sub Total"; ObjectID = "3hi-kU-zSO"; */
+"3hi-kU-zSO.text" = "小计";
+
+/* Class = "UILabel"; text = "$0.00"; ObjectID = "5Uu-rt-trb"; */
+"5Uu-rt-trb.text" = "￥0.00";
+
+/* Class = "UIButton"; normalTitle = "Clear"; ObjectID = "6KO-Cq-tD5"; */
+"6KO-Cq-tD5.normalTitle" = "清除";
+
+/* Class = "UIButton"; normalTitle = "Camera"; ObjectID = "6wS-jk-HzK"; */
+"6wS-jk-HzK.normalTitle" = "拍照";
+
+/* Class = "UILabel"; text = "Total:"; ObjectID = "7XE-Qr-ZcR"; */
+"7XE-Qr-ZcR.text" = "合计:";
+
+/* Class = "UINavigationItem"; title = "Sellable"; ObjectID = "8tR-7v-lxi"; */
+"8tR-7v-lxi.title" = "在售";
+
+/* Class = "UILabel"; text = "0.00"; ObjectID = "Btc-co-LtP"; */
+"Btc-co-LtP.text" = "0.00";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "CeV-vT-GA5"; */
+"CeV-vT-GA5.text" = "Title";
+
+/* Class = "UIButton"; normalTitle = "Clear"; ObjectID = "Def-t2-BLN"; */
+"Def-t2-BLN.normalTitle" = "清空";
+
+/* Class = "UILabel"; text = "2016-12-03 23:35:12"; ObjectID = "E22-35-DtU"; */
+"E22-35-DtU.text" = "2016-12-03 23:35:12";
+
+/* Class = "UITextField"; placeholder = "0.00"; ObjectID = "EKN-dz-Fms"; */
+"EKN-dz-Fms.placeholder" = "0.00";
+
+/* Class = "UITableViewController"; title = "Daily Report"; ObjectID = "EYI-Vt-cuC"; */
+"EYI-Vt-cuC.title" = "每日订单";
+
+/* Class = "UILabel"; text = "User Defined"; ObjectID = "Ehu-RL-ekZ"; */
+"Ehu-RL-ekZ.text" = "自定义";
+
+/* Class = "UILabel"; text = "Qty."; ObjectID = "F9B-pu-9N1"; */
+"F9B-pu-9N1.text" = "数量";
+
+/* Class = "UILabel"; text = "Price:"; ObjectID = "FYG-bn-ZFx"; */
+"FYG-bn-ZFx.text" = "单价:";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "Fg2-Wq-Fts"; */
+"Fg2-Wq-Fts.text" = "Title";
+
+/* Class = "UILabel"; text = "USD"; ObjectID = "FnD-sF-0Ga"; */
+"FnD-sF-0Ga.text" = "CNY";
+
+/* Class = "UILabel"; text = "Name"; ObjectID = "GGZ-5z-N7O"; */
+"GGZ-5z-N7O.text" = "品名";
+
+/* Class = "UITextField"; placeholder = "User Defined"; ObjectID = "GTU-dj-JQx"; */
+"GTU-dj-JQx.placeholder" = "自定义";
+
+/* Class = "UIButton"; normalTitle = "Camera"; ObjectID = "Gt9-ve-ZeL"; */
+"Gt9-ve-ZeL.normalTitle" = "拍照";
+
+/* Class = "UILabel"; text = "ID#:"; ObjectID = "IcH-JY-DTi"; */
+"IcH-JY-DTi.text" = "单号:";
+
+/* Class = "UILabel"; text = "Name"; ObjectID = "IpR-Eq-cjs"; */
+"IpR-Eq-cjs.text" = "品名";
+
+/* Class = "UITabBarItem"; title = "Out of Stock"; ObjectID = "Iwx-lu-KPd"; */
+"Iwx-lu-KPd.title" = "售罄";
+
+/* Class = "UIButton"; normalTitle = "Discard"; ObjectID = "JE0-74-f2L"; */
+"JE0-74-f2L.normalTitle" = "作废";
+
+/* Class = "UIViewController"; title = "Item Info"; ObjectID = "KtN-rr-9WY"; */
+"KtN-rr-9WY.title" = "单品信息";
+
+/* Class = "UIButton"; normalTitle = "Enter"; ObjectID = "LD3-ED-UaS"; */
+"LD3-ED-UaS.normalTitle" = "录入";
+
+/* Class = "UILabel"; text = "Category:"; ObjectID = "LU9-5M-h2O"; */
+"LU9-5M-h2O.text" = "类别:";
+
+/* Class = "UITextField"; placeholder = "No Name"; ObjectID = "LiI-cq-1ke"; */
+"LiI-cq-1ke.placeholder" = "未命名";
+
+/* Class = "UIButton"; normalTitle = "Photo"; ObjectID = "Loz-nO-cvI"; */
+"Loz-nO-cvI.normalTitle" = "照片";
+
+/* Class = "UITextField"; placeholder = "0.00"; ObjectID = "MMa-ez-IQQ"; */
+"MMa-ez-IQQ.placeholder" = "0.00";
+
+/* Class = "UIButton"; normalTitle = "Empty"; ObjectID = "Mkb-5a-kGb"; */
+"Mkb-5a-kGb.normalTitle" = "清空";
+
+/* Class = "UINavigationItem"; title = "Unsellable"; ObjectID = "N6b-N5-dNx"; */
+"N6b-N5-dNx.title" = "仓库";
+
+/* Class = "UILabel"; text = "0"; ObjectID = "Nhz-2S-H9S"; */
+"Nhz-2S-H9S.text" = "0";
+
+/* Class = "UILabel"; text = "Menu Item Name Menu Item Name"; ObjectID = "PR0-Xw-4g4"; */
+"PR0-Xw-4g4.text" = "品名品名品名品名品名品名";
+
+/* Class = "UITabBarItem"; title = "Order"; ObjectID = "Q3O-4s-i8A"; */
+"Q3O-4s-i8A.title" = "订单";
+
+/* Class = "UILabel"; text = "USD"; ObjectID = "Q5b-tW-UIf"; */
+"Q5b-tW-UIf.text" = "CNY";
+
+/* Class = "UILabel"; text = "USD"; ObjectID = "QQj-Xw-HwS"; */
+"QQj-Xw-HwS.text" = "CNY";
+
+/* Class = "UILabel"; text = "Sub Total:"; ObjectID = "QwM-rz-Rxm"; */
+"QwM-rz-Rxm.text" = "小计:";
+
+/* Class = "UIViewController"; title = "Order Info"; ObjectID = "RgI-mZ-qOY"; */
+"RgI-mZ-qOY.title" = "订单详情";
+
+/* Class = "UILabel"; text = "USD"; ObjectID = "S9q-aU-LAM"; */
+"S9q-aU-LAM.text" = "CNY";
+
+/* Class = "UIViewController"; title = "New Item"; ObjectID = "Sb7-Mn-Hm3"; */
+"Sb7-Mn-Hm3.title" = "新品";
+
+/* Class = "UILabel"; text = "On Stock"; ObjectID = "Syg-S0-2V9"; */
+"Syg-S0-2V9.text" = "在售";
+
+/* Class = "UILabel"; text = "Subtitle"; ObjectID = "T5z-bY-l0X"; */
+"T5z-bY-l0X.text" = "子标题";
+
+/* Class = "UILabel"; text = "$0.00"; ObjectID = "Wzv-SD-VeR"; */
+"Wzv-SD-VeR.text" = "￥0.00";
+
+/* Class = "UILabel"; text = "Order Id"; ObjectID = "YjT-ya-kYQ"; */
+"YjT-ya-kYQ.text" = "订单号";
+
+/* Class = "UILabel"; text = "0.00"; ObjectID = "ZAd-MA-eFU"; */
+"ZAd-MA-eFU.text" = "0.00";
+
+/* Class = "UILabel"; text = "Unit Price:"; ObjectID = "ZHp-AE-mUb"; */
+"ZHp-AE-mUb.text" = "单价:";
+
+/* Class = "UILabel"; text = "$0.00"; ObjectID = "aI0-L4-ZoH"; */
+"aI0-L4-ZoH.text" = "￥0.00";
+
+/* Class = "UILabel"; text = "0"; ObjectID = "b0t-MS-wJb"; */
+"b0t-MS-wJb.text" = "0";
+
+/* Class = "UILabel"; text = "Amount:"; ObjectID = "bgm-fi-kUY"; */
+"bgm-fi-kUY.text" = "数量:";
+
+/* Class = "UINavigationItem"; title = "New Item"; ObjectID = "g5U-ZF-jNi"; */
+"g5U-ZF-jNi.title" = "录入新品";
+
+/* Class = "UILabel"; text = "Guest:"; ObjectID = "h8S-WR-LiD"; */
+"h8S-WR-LiD.text" = "顾客:";
+
+/* Class = "UITextField"; placeholder = "No Name"; ObjectID = "hgv-J7-HOs"; */
+"hgv-J7-HOs.placeholder" = "未命名";
+
+/* Class = "UILabel"; text = "ID#:"; ObjectID = "i7u-Vd-I5e"; */
+"i7u-Vd-I5e.text" = "单号:";
+
+/* Class = "UILabel"; text = "Category:"; ObjectID = "iRj-11-J7r"; */
+"iRj-11-J7r.text" = "类别:";
+
+/* Class = "UIButton"; normalTitle = "Pay"; ObjectID = "jak-YT-Kfm"; */
+"jak-YT-Kfm.normalTitle" = "支付";
+
+/* Class = "UITabBarItem"; title = "New Item"; ObjectID = "lCO-iS-Qh4"; */
+"lCO-iS-Qh4.title" = "新品";
+
+/* Class = "UIButton"; normalTitle = "Photo"; ObjectID = "lCt-0o-zlH"; */
+"lCt-0o-zlH.normalTitle" = "照片";
+
+/* Class = "UILabel"; text = "Name:"; ObjectID = "mmh-5X-Kql"; */
+"mmh-5X-Kql.text" = "品名:";
+
+/* Class = "UILabel"; text = "Guest:"; ObjectID = "mrN-t6-8Qq"; */
+"mrN-t6-8Qq.text" = "顾客:";
+
+/* Class = "UILabel"; text = "Total:"; ObjectID = "ohb-G4-ZbR"; */
+"ohb-G4-ZbR.text" = "合计:";
+
+/* Class = "UILabel"; text = "Name"; ObjectID = "sfP-7u-W8s"; */
+"sfP-7u-W8s.text" = "品名";
+
+/* Class = "UILabel"; text = "Guest Name"; ObjectID = "uE9-GN-8cu"; */
+"uE9-GN-8cu.text" = "顾客名称";
+
+/* Class = "UITableViewController"; title = "Out of Stock"; ObjectID = "uTQ-hk-dfm"; */
+"uTQ-hk-dfm.title" = "仓库";
+
+/* Class = "UITabBarItem"; title = "Order"; ObjectID = "uVb-yI-yQF"; */
+"uVb-yI-yQF.title" = "订单";
+
+/* Class = "UITableViewController"; title = "Monthly Report"; ObjectID = "uw5-Be-EHs"; */
+"uw5-Be-EHs.title" = "全部订单";
+
+/* Class = "UILabel"; text = "Price:"; ObjectID = "x6N-fq-qcm"; */
+"x6N-fq-qcm.text" = "单价:";
+
+/* Class = "UILabel"; text = "0.00"; ObjectID = "xwH-SY-d55"; */
+"xwH-SY-d55.text" = "0.00";
+
+/* Class = "UILabel"; text = "USD"; ObjectID = "yEp-VV-qtd"; */
+"yEp-VV-qtd.text" = "CNY";
+

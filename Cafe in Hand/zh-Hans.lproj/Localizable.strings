@@ -1,0 +1,75 @@
+/* Title for Info Message Box */
+"Acknowledge" = "告知";
+
+/* Empty shopping cart warning message */
+"Amount for all item will be reset to zero." = "所有已选单品数量将会重设为零。";
+
+/* Title for Confirm Message Box */
+"Are you sure?" = "确定吗？";
+
+/* Discard and new order warning message */
+"Current order will be discarded and a new order will be created." = "当前订单将被作废，新订单会被创建。";
+
+/* Pay order warning message */
+"Current order will be payed and closed, and also a new order will be created." = "当前订单会被支付和关闭，新订单也会被创建。";
+
+/* Error message for input blank category name */
+"Do not use blank category name." = "请勿在类别中保留空白。";
+
+/* Error message for input blank item name */
+"Do not use blank item name." = "请勿在品名中保留空白。";
+
+/* Error message for input placeholder category name */
+"Do not use placeholder as category name." = "请勿用预设的内容作为自定义类别名。";
+
+/* Error message for input placeholder item name */
+"Do not use placeholder as item name." = "请勿用预设的内容作为品名。";
+
+/* Title for Error Message Box */
+"Error" = "出错了";
+
+/* Error message for duplicated item */
+"Item name exists already." = "输入的品名已经存在。";
+
+/* Info message for new item input */
+"New item is input successfully." = "新增单品成功。";
+
+/* Title of No button */
+"No" = "不";
+
+/* Default guest name */
+"No Name" = "未命名";
+
+/* Default menu item name */
+"No Named" = "未命名";
+
+/* Title of OK button */
+"OK" = "好";
+
+/* Information Message for Order Payment */
+"Order is payed" = "订单已支付";
+
+/* Sell Button Title */
+"Sell" = "上架";
+
+/* Error message for empty order */
+"The order make no sense if no item is selected." = "没有选择任何单品的空订单没有意义";
+
+/* Unsell Button Title */
+"Unsell" = "下架";
+
+/* Error message for invalidate price format */
+"Use decimal like '1.05' for price input." = "请使用类似1.05类似的数字作为单价输入";
+
+/* Default category name */
+"User Defined" = "自定义";
+
+/* Title of Yes button */
+"Yes" = "是";
+
+/* <xxx revenue> From <xxx orders> */
+"from" = "来自";
+
+/* <xxx revenue from xxx> Orders */
+"order(s)" = "订单";
+

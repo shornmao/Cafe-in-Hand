@@ -1,0 +1,36 @@
+/* Class = "UIButton"; normalTitle = "Cancel"; ObjectID = "3lM-FI-qIO"; */
+"3lM-FI-qIO.normalTitle" = "取消";
+
+/* Class = "UILabel"; text = "USD"; ObjectID = "4ib-Ws-Pnu"; */
+"4ib-Ws-Pnu.text" = "CNY";
+
+/* Class = "UILabel"; text = "Cash Payment"; ObjectID = "TK4-KK-iZt"; */
+"TK4-KK-iZt.text" = "现金支付";
+
+/* Class = "UILabel"; text = "Change:"; ObjectID = "VBY-N8-K3H"; */
+"VBY-N8-K3H.text" = "找零:";
+
+/* Class = "UILabel"; text = "0.00"; ObjectID = "af2-bH-c3S"; */
+"af2-bH-c3S.text" = "0.00";
+
+/* Class = "UILabel"; text = "Pay:"; ObjectID = "fmy-7f-p1r"; */
+"fmy-7f-p1r.text" = "应收:";
+
+/* Class = "UILabel"; text = "USD"; ObjectID = "ia0-Bv-G6O"; */
+"ia0-Bv-G6O.text" = "CNY";
+
+/* Class = "UITextField"; text = "0.00"; ObjectID = "q3M-BY-KzU"; */
+"q3M-BY-KzU.text" = "0.00";
+
+/* Class = "UILabel"; text = "Charge:"; ObjectID = "u12-6H-diR"; */
+"u12-6H-diR.text" = "实付:";
+
+/* Class = "UILabel"; text = "0.00"; ObjectID = "vLq-Zg-eZF"; */
+"vLq-Zg-eZF.text" = "0.00";
+
+/* Class = "UIButton"; normalTitle = "Done"; ObjectID = "wl8-2a-IrH"; */
+"wl8-2a-IrH.normalTitle" = "完成";
+
+/* Class = "UILabel"; text = "USD"; ObjectID = "y0q-2j-bgx"; */
+"y0q-2j-bgx.text" = "CNY";
+

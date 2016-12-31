@@ -140,7 +140,7 @@ class OrdersViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "\(sectionNameMonths[section]) Revenue: \(NSLocale.current.currencySymbol!)\(revenueMonthly[section])"
+        return "\(sectionNameMonths[section]) \(NSLocalizedString("Revenue", comment: "Revenue in Daily Order Cell ")): \(NSLocale.current.currencySymbol!)\(revenueMonthly[section])"
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -156,7 +156,7 @@ class OrdersViewController: UITableViewController {
             dateFormatter.locale = NSLocale.current
             dateFormatter.dateStyle = .long
             cell.textLabel?.text = dateFormatter.string(from: date)
-            cell.detailTextLabel?.text = "\(NSLocale.current.currencySymbol!)\(orderInfo.sum) from \(orderInfo.count) order(s)"
+            cell.detailTextLabel?.text = "\(NSLocale.current.currencySymbol!)\(orderInfo.sum) \(NSLocalizedString("from", comment: "<xxx revenue> From <xxx orders>")) \(orderInfo.count) \(NSLocalizedString("order(s)", comment: "<xxx revenue from xxx> Orders"))"
         }
 
         return cell

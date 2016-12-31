@@ -15,8 +15,10 @@
 		0917BC961E16B3AC00851BD3 /* UnsellableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0917BC951E16B3AC00851BD3 /* UnsellableViewController.swift */; };
 		09217C141DF858D600273E1D /* ItemInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09217C131DF858D600273E1D /* ItemInfoViewController.swift */; };
 		09217C191DFEF36700273E1D /* CashPaymentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09217C171DFEF36700273E1D /* CashPaymentController.swift */; };
-		09217C1A1DFEF36700273E1D /* CashPaymentController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 09217C181DFEF36700273E1D /* CashPaymentController.xib */; };
 		09506FC61DEDC7CC00EB1D34 /* NewItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09506FC51DEDC7CC00EB1D34 /* NewItemViewController.swift */; };
+		0954B43F1E17F7CE007398EF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0954B4411E17F7CE007398EF /* InfoPlist.strings */; };
+		0954B4441E17F7CE007398EF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0954B4461E17F7CE007398EF /* Localizable.strings */; };
+		0954B4471E17FA05007398EF /* CashPaymentController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0954B4491E17FA05007398EF /* CashPaymentController.xib */; };
 		095689781E12B26000C2FF8A /* DailyReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 095689771E12B26000C2FF8A /* DailyReportViewController.swift */; };
 		0956897A1E12B67A00C2FF8A /* OrdersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 095689791E12B67A00C2FF8A /* OrdersViewController.swift */; };
 		095A42E21E1525C00048FCEC /* OrderInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 095A42E11E1525C00048FCEC /* OrderInfoViewController.swift */; };
@@ -39,8 +41,13 @@
 		0917BC951E16B3AC00851BD3 /* UnsellableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnsellableViewController.swift; sourceTree = "<group>"; };
 		09217C131DF858D600273E1D /* ItemInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemInfoViewController.swift; sourceTree = "<group>"; };
 		09217C171DFEF36700273E1D /* CashPaymentController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CashPaymentController.swift; sourceTree = "<group>"; };
-		09217C181DFEF36700273E1D /* CashPaymentController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CashPaymentController.xib; sourceTree = "<group>"; };
 		09506FC51DEDC7CC00EB1D34 /* NewItemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewItemViewController.swift; sourceTree = "<group>"; };
+		0954B43B1E17EA35007398EF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
+		0954B43C1E17EA35007398EF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		0954B4401E17F7CE007398EF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		0954B4451E17F7CE007398EF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		0954B4481E17FA05007398EF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/CashPaymentController.xib; sourceTree = "<group>"; };
+		0954B44B1E17FA15007398EF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/CashPaymentController.strings"; sourceTree = "<group>"; };
 		095689771E12B26000C2FF8A /* DailyReportViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DailyReportViewController.swift; sourceTree = "<group>"; };
 		095689791E12B67A00C2FF8A /* OrdersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrdersViewController.swift; sourceTree = "<group>"; };
 		095A42E11E1525C00048FCEC /* OrderInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderInfoViewController.swift; sourceTree = "<group>"; };
@@ -90,6 +97,8 @@
 		0964A34F1DD373E60050BF90 /* Cafe in Hand */ = {
 			isa = PBXGroup;
 			children = (
+				0954B4461E17F7CE007398EF /* Localizable.strings */,
+				0954B4411E17F7CE007398EF /* InfoPlist.strings */,
 				0917BC931E16AAAA00851BD3 /* UtilityRoutines.swift */,
 				0964A3501DD373E60050BF90 /* AppDelegate.swift */,
 				09AC9B391DEDE6460024C7A5 /* SellableViewController.swift */,
@@ -100,12 +109,12 @@
 				095689771E12B26000C2FF8A /* DailyReportViewController.swift */,
 				095A42E11E1525C00048FCEC /* OrderInfoViewController.swift */,
 				09217C171DFEF36700273E1D /* CashPaymentController.swift */,
-				09217C181DFEF36700273E1D /* CashPaymentController.xib */,
 				0917BC8D1E16A17800851BD3 /* SellableItemCell.swift */,
 				0917BC911E16A49D00851BD3 /* OrderItemInfoCell.swift */,
 				0964A35A1DD373E60050BF90 /* Assets.xcassets */,
 				0964A3541DD373E60050BF90 /* Main.storyboard */,
 				0964A35C1DD373E60050BF90 /* LaunchScreen.storyboard */,
+				0954B4491E17FA05007398EF /* CashPaymentController.xib */,
 				0964A35F1DD373E60050BF90 /* Info.plist */,
 				0964A3571DD373E60050BF90 /* Cafe_in_Hand.xcdatamodeld */,
 			);
@@ -156,6 +165,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hans",
 			);
 			mainGroup = 0964A3441DD373E60050BF90;
 			productRefGroup = 0964A34E1DD373E60050BF90 /* Products */;
@@ -173,9 +183,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				0964A35E1DD373E60050BF90 /* LaunchScreen.storyboard in Resources */,
+				0954B4441E17F7CE007398EF /* Localizable.strings in Resources */,
 				0964A35B1DD373E60050BF90 /* Assets.xcassets in Resources */,
 				0964A3561DD373E60050BF90 /* Main.storyboard in Resources */,
-				09217C1A1DFEF36700273E1D /* CashPaymentController.xib in Resources */,
+				0954B4471E17FA05007398EF /* CashPaymentController.xib in Resources */,
+				0954B43F1E17F7CE007398EF /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -209,10 +221,36 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		0954B4411E17F7CE007398EF /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0954B4401E17F7CE007398EF /* zh-Hans */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		0954B4461E17F7CE007398EF /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0954B4451E17F7CE007398EF /* zh-Hans */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		0954B4491E17FA05007398EF /* CashPaymentController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0954B4481E17FA05007398EF /* Base */,
+				0954B44B1E17FA15007398EF /* zh-Hans */,
+			);
+			name = CashPaymentController.xib;
+			sourceTree = "<group>";
+		};
 		0964A3541DD373E60050BF90 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				0964A3551DD373E60050BF90 /* Base */,
+				0954B43B1E17EA35007398EF /* zh-Hans */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -221,6 +259,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				0964A35D1DD373E60050BF90 /* Base */,
+				0954B43C1E17EA35007398EF /* zh-Hans */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -232,6 +271,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -283,6 +323,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";

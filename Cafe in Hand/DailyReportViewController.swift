@@ -103,7 +103,7 @@ class DailyReportViewController: UITableViewController {
         let currency = NSLocale.current.currencySymbol
         let orderInfo = infoOrders[indexPath.row]
         cell.textLabel?.text = orderInfo.date
-        cell.detailTextLabel?.text = "\(orderInfo.guest) for \(currency!)\(orderInfo.total)"
+        cell.detailTextLabel?.text = "\(currency!)\(orderInfo.total) \(NSLocalizedString("from", comment: "<xxx revenue> from <guest>")) \(orderInfo.guest)"
 
         return cell
     }
