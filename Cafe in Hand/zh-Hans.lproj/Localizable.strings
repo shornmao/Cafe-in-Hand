@@ -49,6 +49,9 @@
 /* Information Message for Order Payment */
 "Order is payed" = "订单已支付";
 
+/* Revenue in Daily Order Cell */
+"Revenue" = "收入";
+
 /* Sell Button Title */
 "Sell" = "上架";
 
@@ -67,7 +70,8 @@
 /* Title of Yes button */
 "Yes" = "是";
 
-/* <xxx revenue> From <xxx orders> */
+/* <xxx revenue> from <guest>
+   <xxx revenue> From <xxx orders> */
 "from" = "来自";
 
 /* <xxx revenue from xxx> Orders */
